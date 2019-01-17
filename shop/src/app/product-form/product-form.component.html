@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row">
+    <form [formGroup]="productForm" class="form" action="#">
+      <div class="form-group">
+        <label for="pName">שם מוצר:</label>
+        <input type="text" formControlName="pName" class="form-control" placeholder="הכנס שם מוצר">
+      </div>
+      <div class="form-group">
+        <label for="pPrice">מחיר מוצר:</label>
+        <input type="number" formControlName="pPrice" step="0.01" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="pCategory">קטגוריה:</label>
+        <select formControlName="pCategory" class="form-control">
+          <option value="1" selected>מוצרי חלב</option>
+          <option value="2">פירות וירקות</option>
+          <option value="3">בשר ודגים</option>
+          <option value="4">יין ומשקאות</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="pImage">העלה תמונה:</label>
+        <div>
+          <input type="file" formControlName="pImage" id="pImage" (change)="onFileChange($event.target.files[0])">
+          <label #fileName for="pImage">בחר תמונת מוצר...</label>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -6,11 +6,15 @@ import { AppComponent } from './app.component';
 import { ProductsService } from './products.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MainComponent } from './main/main.component';
+import { ProductComponent } from './product/product.component';
+import { ProductCategoryComponent } from './product-category/product-category.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent
+    MainComponent,
+    ProductComponent,
+    ProductCategoryComponent
   ],
   imports: [
     BrowserModule,

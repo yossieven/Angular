@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductsService, Product } from '../products.service';
-import { BehaviorSubject } from 'rxjs/RX';
-
+import { Product, ProductsService } from '../products.service';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.css']
+  selector: 'app-product-category',
+  templateUrl: './product-category.component.html',
+  styleUrls: ['./product-category.component.css']
 })
-export class MainComponent implements OnInit {
+export class ProductCategoryComponent implements OnInit {
+
   public myProducts: Product[];
   constructor(private productService: ProductsService) { }
 
@@ -21,5 +20,4 @@ export class MainComponent implements OnInit {
       complete: () => console.log('observerc:')
     });
   }
-
 }

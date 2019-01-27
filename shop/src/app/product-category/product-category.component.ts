@@ -12,6 +12,7 @@ export class ProductCategoryComponent implements OnInit {
   constructor(private productService: ProductsService) { }
 
   ngOnInit() {
+
     const id = '';
     this.productService.getProducts(id);
     this.productService.products.subscribe({

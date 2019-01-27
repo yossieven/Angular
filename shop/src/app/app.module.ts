@@ -9,7 +9,10 @@ import { MainComponent } from './main/main.component';
 import { ProductComponent } from './product/product.component';
 import { ProductCategoryComponent } from './product-category/product-category.component';
 import { ProductFormComponent } from './product-form/product-form.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CustomMinDirective } from './custom-min.directive';
+import { CategoryService } from './category.service';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     MainComponent,
     ProductComponent,
     ProductCategoryComponent,
-    ProductFormComponent
+    ProductFormComponent,
+    CustomMinDirective
   ],
   imports: [
     BrowserModule,
@@ -26,7 +30,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ProductsService],
+  providers: [ProductsService, CategoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

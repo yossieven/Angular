@@ -1,30 +1,41 @@
 <div class="container-fluid">
   <div class="row">
-    <form [formGroup]="productForm" class="form" action="#">
+    <form #productForm="ngForm" class="form" action="#">
       <div class="form-group">
         <label for="pName">שם מוצר:</label>
-        <input type="text" formControlName="pName" class="form-control" placeholder="הכנס שם מוצר">
+        <input type="text" required name="pName" #pName="ngModel" [(ngModel)]="product.name" [class.is-invalid]="pName.invalid && pName.touched"
+          class="form-control" placeholder="הכנס שם מוצר">
+        <small class="text-danger" [class.d-none]="pName.valid || pName.untouched">שם מוצר הינו חובה</small>
       </div>
+
       <div class="form-group">
         <label for="pPrice">מחיר מוצר:</label>
-        <input type="number" formControlName="pPrice" step="0.01" class="form-control">
+        <input type="number" name="pPrice" #pPrice="ngModel" step="0.1" customMin="0.1" class="form-control"
+          [(ngModel)]="product.price" required [class.is-invalid]="pPrice.invalid && pPrice.touched">
+
+        <div *ngIf="pPrice.errors && (pPrice.invalid || pPrice.touched)">
+          <small class="text-danger" *ngIf="pPrice.errors.required">מחיר מוצר הינו חובה</small>
+          <small class="text-danger" *ngIf="pPrice.errors.customMin && !pPrice.errors.required">המחיר חייב להיות גדול
+            מאפס</small>
+        </div>
       </div>
       <div class="form-group">
         <label for="pCategory">קטגוריה:</label>
-        <select formControlName="pCategory" class="form-control">
-          <option value="1" selected>מוצרי חלב</option>
-          <option value="2">פירות וירקות</option>
-          <option value="3">בשר ודגים</option>
-          <option value="4">יין ומשקאות</option>
+        <select (blur)="validateCategory(pCategory.value)" (change)="validateCategory(pCategory.value)" name="pCategory"
+          required [class.is-invalid]="pCategory.invalid && pCategory.touched" class="custom-select" #pCategory="ngModel"
+          [(ngModel)]="product.category">
+          <option value=0>בחר קטגוריה למוצר</option>
+          <option *ngFor="let category of categories" value={{category.id}}>{{category.name}}</option>
         </select>
+        <small class="text-danger" [class.d-none]="!categoryError || pCategory.untouched">בחר קטגוריה למוצר</small>
       </div>
-      <div class="form-group">
-        <label for="pImage">העלה תמונה:</label>
-        <div>
-          <input type="file" formControlName="pImage" id="pImage" (change)="onFileChange($event.target.files[0])">
-          <label #fileName for="pImage">בחר תמונת מוצר...</label>
-        </div>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" #pImage="ngModel" name="pImage" id="pImage" (change)="onFileChange($event.target.files[0])"
+          required>
+        <label class="custom-file-label" for="pImage">העלה תמונה...</label>
+        <div class="invalid-feedback">בחר תמונה למוצר</div>
       </div>
+
     </form>
   </div>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { ProductCategoryComponent } from '../product-category/product-category.component';
+import { Product } from '../products.service';
+import { CategoryService, Category } from '../category.service';
 
 @Component({
   selector: 'app-product-form',
@@ -8,21 +8,30 @@ import { ProductCategoryComponent } from '../product-category/product-category.c
   styleUrls: ['./product-form.component.css']
 })
 export class ProductFormComponent implements OnInit {
-  productForm: FormGroup;
+  product: Product = {
+    id: 1,
+    name: "Yossi",
+    category: 0,
+    price: 10.2,
+    image: "myImageFile"
+  }
+
+  categoryError = false;
+  categories: Category[];
   fileToUpload: File = null;
 
   @ViewChild('fileName')
   fileName: ElementRef;
 
-  constructor() { }
+  constructor(private service: CategoryService) { }
 
   ngOnInit() {
-    this.productForm = new FormGroup({
-      pName: new FormControl(),
-      pPrice: new FormControl(),
-      pCategory: new FormControl(),
-      pImage: new FormControl()
-    })
+    this.service.getCategories('');
+    console.log("getting categories...");
+    this.service.categories.subscribe(
+      data => this.categories = data,
+      error => console.error("Error in retrieving categories: ", error)
+    )
   }
 
   onFileChange(file: File) {
@@ -31,4 +40,14 @@ export class ProductFormComponent implements OnInit {
     console.log("file", this.fileToUpload);
   }
 
+  validateCategory(value) {
+    console.log("checking category", value);
+    if (value == 0) {
+      this.categoryError = true;
+    }
+    else {
+      this.categoryError = false;
+    }
+    console.log("this.categoryError = ", this.categoryError);
+  }
 }

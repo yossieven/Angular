@@ -35,13 +35,12 @@ export class ProductsService {
     const params = specific || '';
     const finalURL = basicURL + params;
     console.log("URL", finalURL);
-    const response = await this.http.get(finalURL);
-    console.log(response);
 
     // console.log("products", this.products);
-    this.http.get(finalURL).pipe(
+    await this.http.get(finalURL).pipe(
       map(
         (response: Response) => {
+          console.log("returned data", response);
           return response.data;
 
         })).subscribe(response => this.products.next(response))

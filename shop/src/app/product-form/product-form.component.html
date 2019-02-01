@@ -30,10 +30,13 @@
         <small class="text-danger" [class.d-none]="!categoryError || pCategory.untouched">בחר קטגוריה למוצר</small>
       </div>
       <div class="custom-file">
-        <input type="file" class="custom-file-input" #pImage="ngModel" name="pImage" id="pImage" (change)="onFileChange($event.target.files[0])"
+        <input type="file" class="custom-file-input" name="pImage" id="pImage" (change)="onFileChange($event.target.files[0])"
           required>
-        <label class="custom-file-label" for="pImage">העלה תמונה...</label>
+        <label class="custom-file-label" #fileName [ngModel]="" for="pImage">העלה תמונה...</label>
         <div class="invalid-feedback">בחר תמונה למוצר</div>
+      </div>
+      <div>
+        <img class="mt-4" [src]="'http://localhost:3000/assets/images/'+product.image" name="pPic" alt="">
       </div>
 
     </form>

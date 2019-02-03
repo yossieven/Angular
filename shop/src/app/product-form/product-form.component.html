@@ -29,10 +29,10 @@
         </select>
         <small class="text-danger" [class.d-none]="!categoryError || pCategory.untouched">בחר קטגוריה למוצר</small>
       </div>
-      <div class="custom-file">
-        <input type="file" class="custom-file-input" name="pImage" id="pImage" (change)="onFileChange($event.target.files[0])"
-          required>
-        <label class="custom-file-label" #fileName [ngModel]="" for="pImage">העלה תמונה...</label>
+      <div class="form-inline">
+        <input style="display: none;" type="file" #fileInput (change)="onFileChange($event.target.files[0])">
+        <button type="button" class="btn btn-primary" (click)="fileInput.click()">בחר קובץ</button>
+        <label style="width: 254px;" class="form-control" #fileName [ngModel]="" for="pImage">העלה תמונה...</label>
         <div class="invalid-feedback">בחר תמונה למוצר</div>
       </div>
       <div>

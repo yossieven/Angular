@@ -42,17 +42,19 @@ export class ProductFormComponent implements OnInit {
   }
 
   onFileChange(file: File) {
-    console.log("file", file);
-    this.fileName.nativeElement.innerText = file.name
-    this.fileToUpload = file;
-    console.log("file", this.fileToUpload);
+    if (file) {
+      this.fileName.nativeElement.innerText = file.name
+      this.fileToUpload = file;
+      console.log("file", this.fileToUpload);
 
-    var reader = new FileReader();
-    //this.imagePath = files;
-    reader.readAsDataURL(this.fileToUpload);
-    reader.onload = (_event) => {
-      this.product.image = reader.result + '';
-      console.log("product.image", this.product.image);
+      var reader = new FileReader();
+      //this.imagePath = files;
+      reader.readAsDataURL(this.fileToUpload);
+      reader.onload = (_event) => {
+        console.log("_event", _event);
+        this.product.image = _event.target.result;
+        console.log("product.image", this.product.image);
+      }
     }
   }
 

@@ -41,6 +41,7 @@ export class ProductsService {
       map(
         (response: Response) => {
           console.log("returned data", response);
+          response.data[0].image = 'http://localhost:3000/assets/images/' + response.data[0].image;
           return response.data;
 
         })).subscribe(response => this.products.next(response))

@@ -10,7 +10,7 @@
 
       <div class="form-group">
         <label for="pPrice">מחיר מוצר:</label>
-        <input type="number" name="pPrice" #pPrice="ngModel" step="0.1" customMin="0.1" class="form-control"
+        <input type="number" id="pPrice" name="pPrice" #pPrice="ngModel" step="0.1" customMin="0.1" class="form-control"
           [(ngModel)]="product.price" required [class.is-invalid]="pPrice.invalid && pPrice.touched">
 
         <div *ngIf="pPrice.errors && (pPrice.invalid || pPrice.touched)">
@@ -33,12 +33,19 @@
         <input style="display: none;" type="file" #fileInput (change)="onFileChange($event.target.files[0])">
         <button type="button" class="btn btn-primary" (click)="fileInput.click()">בחר קובץ</button>
         <label style="width: 254px;" class="form-control" #fileName [ngModel]="" for="pImage">העלה תמונה...</label>
-        <div class="invalid-feedback">בחר תמונה למוצר</div>
+        <div [ngClass]="{
+          'invalid-feedback': !isValidImage,
+          'd-block' : !isValidImage,
+          'd-none': isValidImage
+        }">בחר
+          תמונה למוצר</div>
+      </div>
+      <div class="mt-2 mb-2" id="image-display">
+        <img [src]="product.image" name="pPic" alt="">
       </div>
       <div>
-        <img style="width: 150px; height: auto;" class="mt-4" [src]="product.image" name="pPic" alt="">
+        <button type="submit" class="btn btn-success pl-5 pr-5" (click)="createUpdateProduct()">עדכן</button>
       </div>
-
     </form>
   </div>
 </div>

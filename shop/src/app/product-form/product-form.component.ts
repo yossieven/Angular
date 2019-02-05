@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { Product, ProductsService } from '../products.service';
 import { CategoryService, Category } from '../category.service';
 
@@ -9,18 +9,30 @@ import { CategoryService, Category } from '../category.service';
   styleUrls: ['./product-form.component.css']
 })
 export class ProductFormComponent implements OnInit {
-  product: Product;
+
+  product: Product = {
+    id: 0,
+    name: "",
+    category: 0,
+    price: 0,
+    image: ""
+  };
 
   categoryError = false;
+  isValidImage = true;
   categories: Category[];
   fileToUpload: File = null;
 
+  @Input() productId;
 
   @ViewChild('fileName')
   fileName: ElementRef;
 
   constructor(private categoryService: CategoryService, private productService: ProductsService) { }
 
+  /**
+   * load all categories and if ID is given load the product from DB.
+   */
   ngOnInit() {
     this.categoryService.getCategories('');
     console.log("getting categories...");
@@ -28,7 +40,11 @@ export class ProductFormComponent implements OnInit {
       data => this.categories = data,
       error => console.error("Error in retrieving categories: ", error)
     );
-    this.getProductForUpdate('1');
+
+    if (this.productId) {
+      this.getProductForUpdate(this.productId);
+    }
+
   }
 
   async getProductForUpdate(id) {
@@ -41,23 +57,41 @@ export class ProductFormComponent implements OnInit {
     console.log("my product", this.product);
   }
 
+  /**
+   * triggers when file is chosen. 
+   * Resets the image preview and then
+   * will display file name in customized label
+   * and will show preview of image.
+   * @param file 
+   */
   onFileChange(file: File) {
+    this.product.image = "";
     if (file) {
       this.fileName.nativeElement.innerText = file.name
       this.fileToUpload = file;
-      console.log("file", this.fileToUpload);
+      console.log("file type", file.type.split("/", 1));
 
-      var reader = new FileReader();
-      //this.imagePath = files;
-      reader.readAsDataURL(this.fileToUpload);
-      reader.onload = (_event) => {
-        console.log("_event", _event);
-        this.product.image = _event.target.result;
-        console.log("product.image", this.product.image);
+      if (file.type.split("/", 1)[0] === "image") {
+        this.isValidImage = true;
+        var reader = new FileReader();
+        //this.imagePath = files;
+        reader.readAsDataURL(this.fileToUpload);
+        reader.onload = (_event) => {
+          console.log("_event", _event);
+          this.product.image = _event.target.result;
+          console.log("product.image", this.product.image);
+        }
+      }
+      else {
+        this.isValidImage = false;
       }
     }
   }
 
+  /**
+   * make sure category is selected.
+   * @param value 
+   */
   validateCategory(value) {
     console.log("checking category", value);
     if (value == 0) {
@@ -67,5 +101,16 @@ export class ProductFormComponent implements OnInit {
       this.categoryError = false;
     }
     console.log("this.categoryError = ", this.categoryError);
+  }
+
+  createUpdateProduct() {
+    let fd = new FormData();
+
+    if (this.productId) {
+      // update product PUT
+    }
+    else {
+      // create new product POST
+    }
   }
 }

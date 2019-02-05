@@ -21,4 +21,8 @@ export class ProductCategoryComponent implements OnInit {
       complete: () => console.log('observerc:')
     });
   }
+
+  createUpdateProduct() {
+
+  }
 }

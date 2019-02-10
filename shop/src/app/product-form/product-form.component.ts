@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { Product, ProductsService } from '../products.service';
 import { CategoryService, Category } from '../category.service';
+import { HttpHeaders } from '@angular/common/http';
 
 
 @Component({
@@ -23,12 +24,18 @@ export class ProductFormComponent implements OnInit {
   categories: Category[];
   fileToUpload: File = null;
 
+
   @Input() productId;
 
   @ViewChild('fileName')
   fileName: ElementRef;
 
-  constructor(private categoryService: CategoryService, private productService: ProductsService) { }
+  constructor(private categoryService: CategoryService, private productService: ProductsService) {
+    // this.productService.products.subscribe(
+    //   data => this.product = data[0],
+    //   error => console.error(`Error in retrieving product ${this.productId}`, error)
+    // );
+  }
 
   /**
    * load all categories and if ID is given load the product from DB.
@@ -40,7 +47,7 @@ export class ProductFormComponent implements OnInit {
       data => this.categories = data,
       error => console.error("Error in retrieving categories: ", error)
     );
-
+    this.productId = 8;
     if (this.productId) {
       this.getProductForUpdate(this.productId);
     }
@@ -78,7 +85,7 @@ export class ProductFormComponent implements OnInit {
         reader.readAsDataURL(this.fileToUpload);
         reader.onload = (_event) => {
           console.log("_event", _event);
-          this.product.image = _event.target.result;
+          this.product.image = _event.target["result"];
           console.log("product.image", this.product.image);
         }
       }
@@ -105,9 +112,19 @@ export class ProductFormComponent implements OnInit {
 
   createUpdateProduct() {
     let fd = new FormData();
+    console.log("uploaded file", this.fileToUpload);
+    fd.append("image", this.fileToUpload, this.fileToUpload.name);
+    for (var key in this.product) {
+      fd.append(key, this.product[key]);
+    }
 
     if (this.productId) {
       // update product PUT
+      // this.productService.products.subscribe(
+      //   data => this.product = data[0],
+      //   error => console.error(`Error in updating product ${this.productId}`, error)
+      // );
+      this.productService.updateProduct(fd);
     }
     else {
       // create new product POST

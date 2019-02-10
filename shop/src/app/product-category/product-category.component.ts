@@ -22,7 +22,5 @@ export class ProductCategoryComponent implements OnInit {
     });
   }
 
-  createUpdateProduct() {
 
-  }
 }

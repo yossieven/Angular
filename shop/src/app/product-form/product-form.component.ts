@@ -9,15 +9,18 @@ import { HttpHeaders } from '@angular/common/http';
   templateUrl: './product-form.component.html',
   styleUrls: ['./product-form.component.css']
 })
+
+/**
+ * This component will display the form for product creation and update.
+ * by default it will display empty or defaulted values.
+ * if Input is received for product ID then the form will get the product 
+ * from the DB and display its values.
+ * 
+ * 
+ */
 export class ProductFormComponent implements OnInit {
 
-  product: Product = {
-    id: 0,
-    name: "",
-    category: 0,
-    price: 0,
-    image: ""
-  };
+  product: Product;
 
   categoryError = false;
   isValidImage = true;
@@ -31,37 +34,43 @@ export class ProductFormComponent implements OnInit {
   fileName: ElementRef;
 
   constructor(private categoryService: CategoryService, private productService: ProductsService) {
-    // this.productService.products.subscribe(
-    //   data => this.product = data[0],
-    //   error => console.error(`Error in retrieving product ${this.productId}`, error)
-    // );
+
   }
 
   /**
    * load all categories and if ID is given load the product from DB.
    */
   ngOnInit() {
+
+    this.product = {
+      id: 0,
+      name: "",
+      category: 0,
+      price: 0,
+      image: ""
+    };
     this.categoryService.getCategories('');
     console.log("getting categories...");
     this.categoryService.categories.subscribe(
       data => this.categories = data,
       error => console.error("Error in retrieving categories: ", error)
     );
-    this.productId = 8;
+    this.productId = 13;
     if (this.productId) {
       this.getProductForUpdate(this.productId);
+      console.log("ngOnInit - my product", this.product);
     }
 
   }
 
   async getProductForUpdate(id) {
-    this.productService.products.subscribe(
+    this.productService.products$.subscribe(
       data => this.product = data[0],
       error => console.error(`Error in retrieving product ${id}`, error)
     );
     await this.productService.getProducts(id);
 
-    console.log("my product", this.product);
+    console.log("getProductForUpdate - my product", this.product);
   }
 
   /**
@@ -110,24 +119,23 @@ export class ProductFormComponent implements OnInit {
     console.log("this.categoryError = ", this.categoryError);
   }
 
-  createUpdateProduct() {
+  async createUpdateProduct() {
+    this.productService.products$.subscribe(
+      data => this.product = data[0],
+      error => console.error(`Error in retrieving product ${this.productId}`, error)
+    );
+    console.log("createUpdateProduct - my product is", this.product);
     let fd = new FormData();
-    console.log("uploaded file", this.fileToUpload);
-    fd.append("image", this.fileToUpload, this.fileToUpload.name);
+    if (this.fileToUpload != null) {
+      console.log("uploaded file", this.fileToUpload.name);
+      fd.append("image", this.fileToUpload, this.fileToUpload.name);
+    }
     for (var key in this.product) {
       fd.append(key, this.product[key]);
     }
 
-    if (this.productId) {
-      // update product PUT
-      // this.productService.products.subscribe(
-      //   data => this.product = data[0],
-      //   error => console.error(`Error in updating product ${this.productId}`, error)
-      // );
-      this.productService.updateProduct(fd);
-    }
-    else {
-      // create new product POST
-    }
+    await this.productService.updateProduct(fd);
+    console.log("updated product is", this.product);
+
   }
 }

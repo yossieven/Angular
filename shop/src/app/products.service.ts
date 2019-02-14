@@ -24,7 +24,7 @@ export interface Response {
   providedIn: 'root'
 })
 export class ProductsService {
-  public products = new BehaviorSubject<Product[]>([]);
+  public products$ = new BehaviorSubject<Product[]>([]);
   private basicURL = 'http://localhost:3000/api/products/';
 
   constructor(private http: HttpClient) {
@@ -38,7 +38,7 @@ export class ProductsService {
     console.log("URL", finalURL);
 
 
-    // console.log("products", this.products);
+    // console.log("products", this.products$);
     await this.http.get(finalURL).pipe(
       map(
         (response: Response) => {
@@ -46,23 +46,28 @@ export class ProductsService {
           response.data[0].image = 'http://localhost:3000/assets/images/' + response.data[0].image;
           return response.data;
 
-        })).subscribe(response => this.products.next(response))
+        })).subscribe(response => this.products$.next(response))
   }
 
-  updateProduct(fd) {
+  async updateProduct(fd) {
     let httpHeaders = new HttpHeaders();
     httpHeaders.append('Access-Control-Allow-Origin', '*');
+    let updateURL = this.basicURL;
 
     let options = {
       headers: httpHeaders
     };
-    const updateURL = this.basicURL + fd.get('id');
+
+    if (fd.get('id') != 0) {
+      updateURL += fd.get('id');
+    }
+
     console.log('Updated URL is ', updateURL);
-    this.http.post(updateURL, fd, options).pipe(
+    await this.http.post(updateURL, fd, options).pipe(
       map(
         (response: Response) => {
           console.log("returned data", response);
           return response.data;
-        })).subscribe(response => this.products.next(response))
+        })).subscribe(response => this.products$.next(response))
   }
 }

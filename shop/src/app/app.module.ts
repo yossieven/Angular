@@ -12,6 +12,7 @@ import { ProductFormComponent } from './product-form/product-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomMinDirective } from './custom-min.directive';
 import { CategoryService } from './category.service';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { CategoryService } from './category.service';
     ProductComponent,
     ProductCategoryComponent,
     ProductFormComponent,
-    CustomMinDirective
+    CustomMinDirective,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,8 @@
+.body {
+  font-family: 'Alef', sans-serif;
+
+}
+
+.container-fluid {
+  background-image: radial-gradient(white, rgb(18, 18, 252));
+}

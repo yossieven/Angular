@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
 import { map, tap } from 'rxjs/operators';
@@ -49,25 +49,36 @@ export class ProductsService {
         })).subscribe(response => this.products$.next(response))
   }
 
+  /**
+   * This method will call POST rest URL for creation or update
+   * depending whether ID was given or not.
+   * @param fd 
+   */
   async updateProduct(fd) {
-    let httpHeaders = new HttpHeaders();
-    httpHeaders.append('Access-Control-Allow-Origin', '*');
+    // let httpHeaders = new HttpHeaders();
+    // httpHeaders.append('Access-Control-Allow-Origin', '*');
     let updateURL = this.basicURL;
 
-    let options = {
-      headers: httpHeaders
-    };
+    // let options = {
+    //   // headers: httpHeaders,
+    //   reportProgress: true,
+    //   observe: 'events'
+    // };
 
     if (fd.get('id') != 0) {
       updateURL += fd.get('id');
     }
 
     console.log('Updated URL is ', updateURL);
-    await this.http.post(updateURL, fd, options).pipe(
-      map(
-        (response: Response) => {
-          console.log("returned data", response);
-          return response.data;
-        })).subscribe(response => this.products$.next(response))
+    await this.http.post(updateURL, fd)
+      .pipe(
+        map(
+          (response: Response) => {
+            console.log("returned data", response);
+            return response.data;
+          }))
+      .subscribe(response => {
+        this.products$.next(response);
+      });
   }
 }

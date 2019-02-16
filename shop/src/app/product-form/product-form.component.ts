@@ -15,7 +15,7 @@ import { HttpHeaders } from '@angular/common/http';
  * by default it will display empty or defaulted values.
  * if Input is received for product ID then the form will get the product 
  * from the DB and display its values.
- * 
+ * @author Yossi Even
  * 
  */
 export class ProductFormComponent implements OnInit {
@@ -55,7 +55,7 @@ export class ProductFormComponent implements OnInit {
       data => this.categories = data,
       error => console.error("Error in retrieving categories: ", error)
     );
-    this.productId = 13;
+    this.productId = 14;
     if (this.productId) {
       this.getProductForUpdate(this.productId);
       console.log("ngOnInit - my product", this.product);
@@ -81,6 +81,7 @@ export class ProductFormComponent implements OnInit {
    * @param file 
    */
   onFileChange(file: File) {
+    console.log("onFileChange - my product is", this.product);
     this.product.image = "";
     if (file) {
       this.fileName.nativeElement.innerText = file.name
@@ -119,11 +120,16 @@ export class ProductFormComponent implements OnInit {
     console.log("this.categoryError = ", this.categoryError);
   }
 
+  /**
+   * executed on submit.
+   * prepare input for create or update service.
+   * in case of update we don't load the image property
+   * as it is coming as binary data and may conflict with 
+   * the FormData image.
+   * 
+   */
   async createUpdateProduct() {
-    this.productService.products$.subscribe(
-      data => this.product = data[0],
-      error => console.error(`Error in retrieving product ${this.productId}`, error)
-    );
+
     console.log("createUpdateProduct - my product is", this.product);
     let fd = new FormData();
     if (this.fileToUpload != null) {
@@ -131,10 +137,16 @@ export class ProductFormComponent implements OnInit {
       fd.append("image", this.fileToUpload, this.fileToUpload.name);
     }
     for (var key in this.product) {
-      fd.append(key, this.product[key]);
+      if (key !== 'image') {
+        fd.append(key, this.product[key]);
+      }
     }
 
     await this.productService.updateProduct(fd);
+    this.productService.products$.subscribe(
+      data => this.product = data[0],
+      error => console.error(`Error in retrieving product ${this.productId}`, error)
+    );
     console.log("updated product is", this.product);
 
   }

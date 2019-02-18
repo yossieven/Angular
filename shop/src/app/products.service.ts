@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpEventType } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs/Rx';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
-import { map, tap } from 'rxjs/operators';
-import { DecimalPipe } from '@angular/common';
+import { map } from 'rxjs/operators';
 import * as _ from 'lodash';
 
 export interface Product {
@@ -55,15 +54,8 @@ export class ProductsService {
    * @param fd 
    */
   async updateProduct(fd) {
-    // let httpHeaders = new HttpHeaders();
-    // httpHeaders.append('Access-Control-Allow-Origin', '*');
-    let updateURL = this.basicURL;
 
-    // let options = {
-    //   // headers: httpHeaders,
-    //   reportProgress: true,
-    //   observe: 'events'
-    // };
+    let updateURL = this.basicURL;
 
     if (fd.get('id') != 0) {
       updateURL += fd.get('id');

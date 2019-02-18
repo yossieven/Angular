@@ -14,12 +14,12 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     const id = '';
-    this.productService.getProducts(id);
-    this.productService.products$.subscribe({
-      next: (data) => this.myProducts = data,
-      error: (err) => console.log('observerb:' + err),
-      complete: () => console.log('observerc:')
-    });
+    // this.productService.getProducts(id);
+    // this.productService.products$.subscribe({
+    //   next: (data) => this.myProducts = data,
+    //   error: (err) => console.log('observerb:' + err),
+    //   complete: () => console.log('observerc:')
+    // });
   }
 
 }

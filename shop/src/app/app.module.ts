@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomMinDirective } from './custom-min.directive';
 import { CategoryService } from './category.service';
 import { LoginComponent } from './login/login.component';
+import { UserService } from './user.service';
 
 
 @NgModule({
@@ -32,7 +33,7 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ProductsService, CategoryService],
+  providers: [ProductsService, CategoryService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

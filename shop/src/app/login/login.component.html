@@ -3,17 +3,26 @@
   <div class="row align-items-center h-100">
     <div class="col"></div>
     <div class="col">
-      <div class="form-group">
-        <label for="userEmail">אי-מייל:</label>
-        <input type="mail" name="userEmail" class="form-control" />
-      </div>
-      <div class="form-group">
-        <label for="userPass">סיסמה:</label>
-        <input type="password" name="userPass" class="form-control" />
-      </div>
-      <button class="btn btn-success w-50">היכנס</button>
-      <button class="btn btn-primary w-50">הירשם</button>
+      <button class="d-none btn btn-light btn-block">
+        <div>
+          <h1>Start Shopping</h1>
+        </div>
+      </button>
+      <br>
+      <form #loginForm="ngForm" class="form" (ngSubmit)="login(loginForm.value)">
+        <div class=" form-group">
+          <label for="userEmail">אי-מייל:</label>
+          <input type="mail" name="userEmail" class="form-control" ngModel>
+        </div>
+        <div class="form-group">
+          <label for="userPass">סיסמה:</label>
+          <input type="password" name="userPass" class="form-control" ngModel>
+        </div>
+        <button type="submit" class="btn btn-success w-50">היכנס</button>
+        <button class="btn btn-primary w-50">הירשם</button>
+      </form>
     </div>
+
     <div class="col"></div>
   </div>
 

@@ -6,3 +6,16 @@
 .container-fluid {
   background-image: radial-gradient(white, rgb(18, 18, 252));
 }
+
+button {
+  -webkit-transition: opacity 1s;
+
+}
+
+.hide {
+  opacity: 0;
+}
+
+.show {
+  opacity: 1;
+}

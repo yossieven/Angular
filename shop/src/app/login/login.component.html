@@ -3,7 +3,7 @@
   <div class="row align-items-center h-100">
     <div class="col"></div>
     <div class="col">
-      <button class="d-none btn btn-light btn-block">
+      <button class="btn btn-light btn-block" [ngClass]="{'hide': !isDisplayShopping, 'show': isDisplayShopping}">
         <div>
           <h1>Start Shopping</h1>
         </div>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { User } from './user';
+import { BehaviorSubject } from 'rxjs/Rx';
 
 
 export interface Response {
@@ -14,10 +15,11 @@ export interface Response {
 })
 export class UserService {
   private basicURL = 'http://localhost:3000/api/users/';
+  public user$ = new BehaviorSubject<User[]>([]);
 
   constructor(private http: HttpClient) { }
 
-  checkLogin(email, password) {
+  checkLogin(email: string, password: string) {
 
     const loginURL = this.basicURL + "login";
     console.log("checkLogin with URL", loginURL);
@@ -25,25 +27,40 @@ export class UserService {
       email: email,
       password: password
     }
-    console.log("body : ", params);
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    let rtn = this.http.post(loginURL, params, httpOptions).pipe(
-      map(
-        (response: Response) => {
-          console.log("returned data", response);
-          return response.success;
-        })).subscribe(
-          res => {
-            console.log(res);
-          },
-          err => {
-            console.log("Error occured");
-          }
-        );
+
+
+    return this.http.post(loginURL, params, httpOptions).map(
+      (response: Response) => {
+        console.log("returned data", response);
+        if (response.success) {
+          return response.data;
+        }
+        else {
+          BehaviorSubject.throw('Authentication Failed!');
+        }
+      }).subscribe(
+        res => {
+          console.log("res", res);
+          this.user$.next(res);
+        },
+        err => {
+          console.log("Error occured");
+        }
+      );
+  }
+
+  /**
+   * check whether user has still active cart.
+   * @param id 
+   */
+  isUserHasActiveCart(id: number) {
+    // to check if user has cart and order.
   }
 
 }

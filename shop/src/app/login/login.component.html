@@ -3,9 +3,12 @@
   <div class="row align-items-center h-100">
     <div class="col"></div>
     <div class="col">
-      <button class="btn btn-light btn-block" [ngClass]="{'hide': !isDisplayShopping, 'show': isDisplayShopping}">
-        <div>
-          <h1>Start Shopping</h1>
+      <button class="btn btn-warning btn-block" [ngClass]="{'hide': user == undefined, 'show': user != undefined}">
+        <div *ngIf="isHasCart" [ngClass]="{'d-none': user == undefined }">
+          <h1>המשך לקנות</h1>
+        </div>
+        <div *ngIf="!isHasCart" [ngClass]="{'d-none': user == undefined }">
+          <h1>התחל בקנייה</h1>
         </div>
       </button>
       <br>

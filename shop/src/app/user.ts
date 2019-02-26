@@ -1,10 +1,10 @@
 export class User {
-    id: String
-    name: String
-    last_name: String
-    email: String
-    password: String
-    city: String
-    street: String
+    id: string
+    name: string
+    last_name: string
+    email: string
+    password: string
+    city: string
+    street: string
     role: number
 }

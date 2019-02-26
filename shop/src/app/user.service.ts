@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { User } from './user';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 
 
 export interface Response {
@@ -16,17 +16,25 @@ export interface Response {
 export class UserService {
   private basicURL = 'http://localhost:3000/api/users/';
   public user$ = new BehaviorSubject<User[]>([]);
+  public isUserHasCart: boolean = false;
 
   constructor(private http: HttpClient) { }
 
+  /**
+   * will check user credentials and send back User data if successful.
+   * will subscribe to the User if found and will send back whether user
+   * has any active cart.
+   * @param email 
+   * @param password 
+   */
   checkLogin(email: string, password: string) {
-
     const loginURL = this.basicURL + "login";
     console.log("checkLogin with URL", loginURL);
     const params = {
       email: email,
       password: password
     }
+
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -35,7 +43,7 @@ export class UserService {
     };
 
 
-    return this.http.post(loginURL, params, httpOptions).map(
+    this.http.post(loginURL, params, httpOptions).map(
       (response: Response) => {
         console.log("returned data", response);
         if (response.success) {
@@ -46,8 +54,14 @@ export class UserService {
         }
       }).subscribe(
         res => {
-          console.log("res", res);
-          this.user$.next(res);
+          if (res) {
+            console.log("res", res);
+            this.isUserHasActiveCart(parseInt(res[0].id)).subscribe((boolRes) => { this.isUserHasCart = boolRes; this.user$.next(res); });
+          }
+          else {
+            this.isUserHasCart = false;
+            this.user$.next([]);
+          }
         },
         err => {
           console.log("Error occured");
@@ -59,8 +73,21 @@ export class UserService {
    * check whether user has still active cart.
    * @param id 
    */
-  isUserHasActiveCart(id: number) {
+  isUserHasActiveCart(id: number): Observable<boolean> {
     // to check if user has cart and order.
+    const loginURL = this.basicURL + id + "/hasCart";
+    console.log("check if has cart with URL", loginURL);
+    return this.http.get<boolean>(loginURL).
+      map(
+        (response: boolean) => {
+          console.log("returned data", response);
+          if (response) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        });
   }
 
 }

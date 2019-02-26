@@ -10,7 +10,7 @@ import { User } from '../user';
 })
 export class LoginComponent implements OnInit {
   user: User;
-  isDisplayShopping: boolean = false;
+  isHasCart: boolean = false;
   constructor(private userService: UserService) { }
 
   ngOnInit() {
@@ -18,11 +18,14 @@ export class LoginComponent implements OnInit {
 
   login(value: any) {
     console.log("login");
-    this.userService.user$.subscribe(
-      data => { this.user = data[0]; this.isDisplayShopping = true; this.userService },
-      error => { console.error(`Error in retrieving user : `, error); this.isDisplayShopping = false; }
-    );
+
     this.userService.checkLogin(value.userEmail, value.userPass);
+    //this.userService.isUserHasActiveCart(parseInt(this.user.id)).subscribe(hasCart => this.isDisplayShopping = hasCart);
+    this.userService.user$.subscribe(
+      data => { this.user = data[0]; console.log("returned from service", this.userService.isUserHasCart); this.isHasCart = this.userService.isUserHasCart },
+      error => { console.error(`Error in retrieving user : `, error); this.isHasCart = false; }
+    );
+    console.log("user", this.user);
 
   }
 }

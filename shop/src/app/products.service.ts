@@ -4,14 +4,8 @@ import { BehaviorSubject } from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
 import { map } from 'rxjs/operators';
 import * as _ from 'lodash';
+import { Product } from './product';
 
-export interface Product {
-  id: number,
-  name: string,
-  category: number,
-  price: number,
-  image: string
-}
 
 export interface Response {
   success: boolean,

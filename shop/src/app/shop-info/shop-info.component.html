@@ -1,0 +1,29 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col"></div>
+    <div class="col">
+      <div>
+        <img src="http://localhost:3000/assets/images/shop-online.jpg" alt="">
+      </div>
+      <hr>
+      <div class="mx-auto">
+        <h3 class="text-center">ישנם {{numberOfProducts}} מוצרים בחנות שלנו</h3>
+      </div>
+      <br>
+      <div class="mx-auto">
+        <h3 class="text-center">האתר שלנו טיפל ב-{{numberOfOrders}} הזמנות</h3>
+      </div>
+      <div *ngIf="hasOpenCart">
+        <h3 class="alert alert-warning">הערה:</h3>
+        <p>יש לך עגלת קניות פתוחה</p>
+        <p>מתאריך {{cart.creation_date | date: 'dd/MM/yyyy'}}</p>
+        <p></p>
+      </div>
+    </div>
+    <div class="col"></div>
+
+  </div>
+
+
+</div>

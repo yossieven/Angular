@@ -22,10 +22,10 @@ export class LoginComponent implements OnInit {
     this.userService.checkLogin(value.userEmail, value.userPass);
     //this.userService.isUserHasActiveCart(parseInt(this.user.id)).subscribe(hasCart => this.isDisplayShopping = hasCart);
     this.userService.user$.subscribe(
-      data => { this.user = data[0]; console.log("returned from service", this.userService.isUserHasCart); this.isHasCart = this.userService.isUserHasCart },
-      error => { console.error(`Error in retrieving user : `, error); this.isHasCart = false; }
+      data => { this.user = data[0]; console.log("login: returned from service", this.user); this.isHasCart = this.userService.isUserHasCart },
+      error => { console.error(`login: Error in retrieving user : `, error); this.isHasCart = false; }
     );
-    console.log("user", this.user);
+    console.log("login: user", this.user);
 
   }
 }

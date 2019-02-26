@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductsService, Product } from '../products.service';
+import { ProductsService } from '../products.service';
 import { BehaviorSubject } from 'rxjs/RX';
+import { Product } from '../product';
 
 
 @Component({
@@ -14,12 +15,12 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     const id = '';
-    // this.productService.getProducts(id);
-    // this.productService.products$.subscribe({
-    //   next: (data) => this.myProducts = data,
-    //   error: (err) => console.log('observerb:' + err),
-    //   complete: () => console.log('observerc:')
-    // });
+    this.productService.getProducts('');
+    this.productService.products$.subscribe({
+      next: (data) => this.myProducts = data,
+      error: (err) => console.log('observerb:' + err),
+      complete: () => console.log('observerc:')
+    });
   }
 
 }

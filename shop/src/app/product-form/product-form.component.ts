@@ -1,7 +1,8 @@
 import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
-import { Product, ProductsService } from '../products.service';
+import { ProductsService } from '../products.service';
 import { CategoryService, Category } from '../category.service';
 import { HttpHeaders } from '@angular/common/http';
+import { Product } from '../product';
 
 
 @Component({

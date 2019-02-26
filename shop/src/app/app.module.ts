@@ -14,6 +14,7 @@ import { CustomMinDirective } from './custom-min.directive';
 import { CategoryService } from './category.service';
 import { LoginComponent } from './login/login.component';
 import { UserService } from './user.service';
+import { ShopInfoComponent } from './shop-info/shop-info.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { UserService } from './user.service';
     ProductCategoryComponent,
     ProductFormComponent,
     CustomMinDirective,
-    LoginComponent
+    LoginComponent,
+    ShopInfoComponent
   ],
   imports: [
     BrowserModule,

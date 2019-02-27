@@ -3,12 +3,15 @@
 
 }
 
-.container-fluid {
+.main-login {
   background-image: radial-gradient(white, rgb(18, 18, 252));
+  height: 500px;
+  border-radius: 10px;
 }
 
 button {
   -webkit-transition: opacity 1s;
+  top: 15px;
 
 }
 
@@ -18,4 +21,8 @@ button {
 
 .show {
   opacity: 1;
+}
+
+form {
+  top: 70px;
 }

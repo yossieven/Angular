@@ -1,0 +1,4 @@
+.container-fluid {
+  background-image: radial-gradient(white, rgb(18, 18, 252));
+  height: 500px;
+}

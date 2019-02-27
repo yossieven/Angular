@@ -1,29 +1,29 @@
-<div class="container">
+<div class="container-fluid">
 
-  <div class="row">
-    <div class="col"></div>
-    <div class="col">
-      <div>
-        <img src="http://localhost:3000/assets/images/shop-online.jpg" alt="">
-      </div>
-      <hr>
-      <div class="mx-auto">
-        <h3 class="text-center">ישנם {{numberOfProducts}} מוצרים בחנות שלנו</h3>
-      </div>
-      <br>
-      <div class="mx-auto">
-        <h3 class="text-center">האתר שלנו טיפל ב-{{numberOfOrders}} הזמנות</h3>
-      </div>
-      <div *ngIf="hasOpenCart">
-        <h3 class="alert alert-warning">הערה:</h3>
-        <p>יש לך עגלת קניות פתוחה</p>
-        <p>מתאריך {{cart.creation_date | date: 'dd/MM/yyyy'}}</p>
-        <p></p>
-      </div>
+  <div class="text-center mx-auto">
+    <img width="250px" height="auto" src="http://localhost:3000/assets/images/shop-online.png" alt="">
+  </div>
+  <hr>
+  <div class="mx-auto">
+    <h3 class="text-center">ישנם {{numberOfProducts}} מוצרים בחנות שלנו</h3>
+  </div>
+  <br>
+  <div class="mx-auto">
+    <h3 class="text-center">האתר שלנו טיפל ב-{{numberOfOrders}} הזמנות</h3>
+  </div>
+  <div>
+    <h3 class="text-warning">הערות:</h3>
+    <div *ngIf="hasOpenCart">
+      <p>{{user.name}} יש לך עגלת קניות פתוחה</p>
+      <p>מתאריך {{cart.creation_date | date: 'dd/MM/yyyy'}}</p>
+
     </div>
-    <div class="col"></div>
+    <div *ngIf="userOrder != null && !hasOpenCart">
+      <p>ההזמנה האחרונה שלך הייתה</p>
+      <p>בתאריך {{userOrder.creation_date | date: 'dd/MM/yyyy'}}</p>
+    </div>
+    <div *ngIf="userOrder == null && !hasOpenCart && user != null">
+      <p>ברוך הבא {{user.name}}</p>
+    </div>
 
   </div>
-
-
-</div>

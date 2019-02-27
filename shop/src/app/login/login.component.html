@@ -1,32 +1,24 @@
-<div style="height: 100vh" class="container-fluid">
-
-  <div class="row align-items-center h-100">
-    <div class="col"></div>
-    <div class="col">
-      <button class="btn btn-warning btn-block" [ngClass]="{'hide': user == undefined, 'show': user != undefined}">
-        <div *ngIf="isHasCart" [ngClass]="{'d-none': user == undefined }">
-          <h1>המשך לקנות</h1>
-        </div>
-        <div *ngIf="!isHasCart" [ngClass]="{'d-none': user == undefined }">
-          <h1>התחל בקנייה</h1>
-        </div>
-      </button>
-      <br>
-      <form #loginForm="ngForm" class="form" (ngSubmit)="login(loginForm.value)">
-        <div class=" form-group">
-          <label for="userEmail">אי-מייל:</label>
-          <input type="mail" name="userEmail" class="form-control" ngModel>
-        </div>
-        <div class="form-group">
-          <label for="userPass">סיסמה:</label>
-          <input type="password" name="userPass" class="form-control" ngModel>
-        </div>
-        <button type="submit" class="btn btn-success w-50">היכנס</button>
-        <button class="btn btn-primary w-50">הירשם</button>
-      </form>
-    </div>
-
-    <div class="col"></div>
+<div class="main-login py-2 px-2 pb-4">
+  <div class="align-items-center">
+    <button class="btn btn-warning btn-block position-relative" [ngClass]="{'hide': user == undefined, 'show': user != undefined}">
+      <div *ngIf="isHasCart" [ngClass]="{'d-none': user == undefined }">
+        <h3>המשך לקנות</h3>
+      </div>
+      <div *ngIf="!isHasCart" [ngClass]="{'d-none': user == undefined }">
+        <h3>התחל בקנייה</h3>
+      </div>
+    </button>
+    <br>
+    <form #loginForm="ngForm" class="form position-relative" (ngSubmit)="login(loginForm.value)">
+      <div class=" form-group">
+        <label for="userEmail">אי-מייל:</label>
+        <input type="mail" name="userEmail" class="form-control" ngModel>
+      </div>
+      <div class="form-group">
+        <label for="userPass">סיסמה:</label>
+        <input type="password" name="userPass" class="form-control" ngModel>
+      </div>
+      <button type="submit" class="btn btn-success w-50">היכנס</button>
+      <button class="btn btn-primary w-50">הירשם</button>
+    </form>
   </div>
-
-</div>

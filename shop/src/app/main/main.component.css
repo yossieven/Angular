@@ -4,5 +4,19 @@
 }
 
 .login {
-  height: 500px;
+  height: 75vh;
+  float: right;
+  width: 30%
+}
+
+.shop-info {
+  height: 75vh;
+  float: right;
+  width: 30%
+}
+
+.description {
+  height: 75vh;
+  float: right;
+  width: 30%
 }

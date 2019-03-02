@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { UserService } from './user.service';
 import { ShopInfoComponent } from './shop-info/shop-info.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { CommercialComponent } from './commercial/commercial.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     CustomMinDirective,
     LoginComponent,
     ShopInfoComponent,
-    NavbarComponent
+    NavbarComponent,
+    CommercialComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
-.main-shop-info {
+.main-commercial {
   background-image: radial-gradient(white, rgb(18, 18, 252));
   height: 500px;
   border-radius: 10px;
+  color: rgb(53, 31, 3);
 }

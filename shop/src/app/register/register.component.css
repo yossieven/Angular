@@ -1,0 +1,32 @@
+.main-register {
+  margin-top: 100px;
+  padding-right: 4%;
+}
+
+.first-step {
+  margin-right: 3vw;
+  float: right;
+  background-image: radial-gradient(white, rgb(18, 18, 252));
+  /* height: 350px; */
+  border-radius: 10px;
+  border: 1px solid black;
+  width: 37vw;
+  color: white;
+  padding: 15px;
+}
+
+.second-step {
+  margin-right: 10vw;
+  float: right;
+  background-image: radial-gradient(white, rgb(18, 18, 252));
+  /* height: 350px; */
+  border-radius: 10px;
+  border: 1px solid black;
+  width: 37vw;
+  color: white;
+  padding: 15px;
+}
+
+.btn-link {
+  color: white;
+}

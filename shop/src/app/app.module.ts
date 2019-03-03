@@ -17,6 +17,8 @@ import { UserService } from './user.service';
 import { ShopInfoComponent } from './shop-info/shop-info.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CommercialComponent } from './commercial/commercial.component';
+import { RegisterComponent } from './register/register.component';
+import { MustMatchDirective } from './must-match.directive';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { CommercialComponent } from './commercial/commercial.component';
     LoginComponent,
     ShopInfoComponent,
     NavbarComponent,
-    CommercialComponent
+    CommercialComponent,
+    RegisterComponent,
+    MustMatchDirective
   ],
   imports: [
     BrowserModule,

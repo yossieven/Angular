@@ -3,16 +3,16 @@
     <form #registerForm1="ngForm" name="form" class="form" (ngSubmit)="nextStep(registerForm1)" [mustMatch]="['registerPass', 'registerPassConfirm']"
       novalidate>
       <div class="first-step d-flex align-items-stretch">
-        <fieldset [disabled]="disableFirstSet">
+        <fieldset [disabled]="disableFirstSet" [ngClass]="{'disabledForm': disableFirstSet}">
           <div class="form-group row mb-3">
             <label class="col-4 col-form-label" for="registerID">ת.ז:</label>
             <div class="col-8">
               <input type="text" name="registerID" #id="ngModel" ngModel pattern="^[0-9]+$" class="form-control"
-                [ngClass]="{ 'is-invalid': registerForm1.submitted && id.invalid }" required minlength="9">
+                [ngClass]="{ 'is-invalid': registerForm1.submitted && id.invalid }" required minlength="9" maxlength="10">
               <div *ngIf="registerForm1.submitted && id.invalid" class="invalid-feedback">
                 <div *ngIf="id.errors.required">מספר זהות הינו חובה</div>
                 <div *ngIf="id.errors.pattern">מספר זהות חייב להיות מורכב ממספרים בלבד</div>
-                <div *ngIf="id.errors.minlength">אנא הקלד 9 ספרות לפחות</div>
+                <div *ngIf="id.errors.minlength">אנא הקלד 9 או 10 ספרות בלבד</div>
               </div>
             </div>
           </div>
@@ -58,20 +58,31 @@
         </fieldset>
       </div>
     </form>
-    <form #registerForm2="ngForm" class="form" (ngSubmit)="registerUser(registerForm.value)">
+    <form #registerForm2="ngForm" class="form" (ngSubmit)="registerUser(registerForm1, registerForm2)">
       <div class="second-step d-flex align-items-stretch">
-        <fieldset [disabled]="disableSecondSet">
+        <fieldset [disabled]="disableSecondSet" [ngClass]="{'disabledForm': disableSecondSet}">
+
           <div class="form-group row">
             <label class="col-4 col-form-label" for="registerCity">עיר:</label>
             <div class="col-8">
-              <input type="text" name="registerCity" class="form-control" ngModel>
+              <select name="registerCity" class="custom-select" #city="ngModel" [ngClass]="{ 'is-invalid': registerForm2.submitted && city.invalid }"
+                ngModel required>
+                <option *ngFor="let city of listOfCities.cities" value={{city.name}}>{{city.name}}</option>
+              </select>
+              <div *ngIf="registerForm2.submitted && city.invalid" class="invalid-feedback">
+                <div *ngIf="city.errors.required">עיר הינה חובה</div>
+              </div>
             </div>
           </div>
 
           <div class="form-group row">
             <label class="col-4 col-form-label" for="registerStreet">רחוב:</label>
             <div class="col-8">
-              <input type="text" name="registerStreet" class="form-control" ngModel>
+              <input type="text" name="registerStreet" #street="ngModel" class="form-control" [ngClass]="{ 'is-invalid': registerForm2.submitted && street.invalid }"
+                ngModel required>
+              <div *ngIf="registerForm2.submitted && street.invalid" class="invalid-feedback">
+                <div *ngIf="street.errors.required">רחוב הינו חובה</div>
+              </div>
             </div>
           </div>
 
@@ -79,17 +90,26 @@
           <div class="form-group row">
             <label class="col-4 col-form-label" for="registerName">שם:</label>
             <div class="col-8">
-              <input type="text" name="registerName" class="form-control" ngModel>
+              <input type="text" name="registerName" #name="ngModel" class="form-control" [ngClass]="{ 'is-invalid': registerForm2.submitted && name.invalid }"
+                ngModel required>
+              <div *ngIf="registerForm2.submitted && name.invalid" class="invalid-feedback">
+                <div *ngIf="name.errors.required">שם הינו חובה</div>
+              </div>
             </div>
           </div>
 
           <div class="form-group row">
             <label class="col-4 col-form-label" for="registerLastName">שם משפחה:</label>
             <div class="col-8">
-              <input type="text" name="registerLastName" class="form-control" ngModel>
+              <input type="text" name="registerLastName" #lastName="ngModel" class="form-control" [ngClass]="{ 'is-invalid': registerForm2.submitted && lastName.invalid }"
+                ngModel required>
+              <div *ngIf="registerForm2.submitted && lastName.invalid" class="invalid-feedback">
+                <div *ngIf="lastName.errors.required">שם משפחה הינו חובה</div>
+              </div>
             </div>
           </div>
-          <button class="btn btn-link float-right" (click)="nextStep()">שלח</button>
+          <button type="submit" class="btn btn-link float-right">שלח</button>
+          <button class="btn btn-secondary" (click)="stepBack()">חזור</button>
         </fieldset>
       </div>
     </form>

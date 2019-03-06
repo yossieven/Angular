@@ -1,10 +1,10 @@
 <div class="main-login py-2 px-2 pb-4">
   <div class="align-items-center">
     <button class="btn btn-warning btn-block position-relative" [ngClass]="{'hide': user == undefined, 'show': user != undefined}">
-      <div *ngIf="isHasCart" [ngClass]="{'d-none': user == undefined }">
+      <div *ngIf="isHasCart" [ngClass]="{'d-none': user == null }">
         <h3>המשך לקנות</h3>
       </div>
-      <div *ngIf="!isHasCart" [ngClass]="{'d-none': user == undefined }">
+      <div *ngIf="!isHasCart" [ngClass]="{'d-none': user == null }">
         <h3>התחל בקנייה</h3>
       </div>
     </button>
@@ -19,6 +19,6 @@
         <input type="password" name="userPass" class="form-control" ngModel>
       </div>
       <button type="submit" class="btn btn-success w-50">היכנס</button>
-      <button ng-click="register()" class="btn btn-primary w-50">הירשם</button>
+      <button (click)="register()" class="btn btn-primary w-50">הירשם</button>
     </form>
   </div>

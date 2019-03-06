@@ -1,6 +1,6 @@
 export class Order {
     id: number
-    user_id: number
+    user_id: string
     total: number
     cart_id: number
     city: string

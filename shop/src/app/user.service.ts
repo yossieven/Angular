@@ -58,7 +58,7 @@ export class UserService {
         res => {
           console.log("user service, checkLogin: subscribed to user", res);
           if (res) {
-            this.isUserHasActiveCart(parseInt(res[0].id)).subscribe((boolRes) => { this.isUserHasCart = boolRes; this.user$.next(res); });
+            this.isUserHasActiveCart(res[0].id).subscribe((boolRes) => { this.isUserHasCart = boolRes; this.user$.next(res); });
           }
           else {
             this.isUserHasCart = false;
@@ -75,7 +75,7 @@ export class UserService {
    * check whether user has still active cart.
    * @param id 
    */
-  isUserHasActiveCart(id: number): Observable<boolean> {
+  isUserHasActiveCart(id: string): Observable<boolean> {
     // to check if user has cart and order.
     const loginURL = this.basicURL + id + "/hasCart";
     console.log("user service, isUserHasActiveCart: check if has cart with URL", loginURL);
@@ -92,6 +92,51 @@ export class UserService {
             return false;
           }
         });
+  }
+
+  createUser(user: User) {
+    const loginURL = this.basicURL;
+    console.log("createUser with URL", loginURL);
+
+    const params = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      last_name: user.last_name,
+      city: user.city,
+      street: user.street,
+      role: 0
+    }
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    const createdUser: Array<User> = [];
+    console.log("creating user with params", params);
+    this.http.post(loginURL, params, httpOptions).
+      map(
+        (response: Response) => {
+          console.log("user service, createUser: returned data", response);
+          if (response.success) {
+            console.log("created");
+            createdUser.push(user);
+            this.user$.next(createdUser);
+          }
+          else {
+            console.log("not created");
+            this.user$.next(null);
+          }
+        })
+      .subscribe(
+        res => {
+          console.log("created new user successfully", res);
+        },
+        err => {
+          console.log("there was a problem in creating new user", err);
+        }
+      );
   }
 
 }

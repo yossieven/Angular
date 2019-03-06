@@ -30,3 +30,7 @@
 .btn-link {
   color: white;
 }
+
+.disabledForm {
+  opacity: 0.4;
+}

@@ -56,14 +56,16 @@ export class ShopInfoComponent implements OnInit {
 
     this.userService.user$.subscribe({
       next: (data) => {
-        if (data.length > 0) {
+        console.log("shop-info: subscribe to User - data", data);
+        if (data == null || data.length == 0) {
+          this.userOrder = null;
+          this.user = null;
+        }
+        else {
           this.user = data[0];
           console.log("shop-info: subscribed to user ID", this.user.id);
           console.log("shop-info: number of orders when user changed ", this.numberOfOrders);
           this.userOrder = this.orders.find(order => order.user_id == this.user.id);
-        }
-        else {
-          this.userOrder = null;
         }
       },
       error: (err) => console.log('shop-info: observer shop info:' + err),

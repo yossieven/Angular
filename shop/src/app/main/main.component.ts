@@ -11,16 +11,22 @@ import { Product } from '../product';
 })
 export class MainComponent implements OnInit {
   public myProducts: Product[];
-  constructor(private productService: ProductsService) { }
-
-  ngOnInit() {
-    const id = '';
-    this.productService.getProducts('');
+  constructor(private productService: ProductsService) {
     this.productService.products$.subscribe({
-      next: (data) => this.myProducts = data,
+      next: (data) => {
+        this.myProducts = data;
+        console.log("main: subscribe to products - products", this.myProducts);
+      },
       error: (err) => console.log('observerb:' + err),
       complete: () => console.log('observerc:')
     });
+  }
+
+  ngOnInit() {
+    const id = '';
+
+    this.productService.getProducts('');
+
   }
 
 }

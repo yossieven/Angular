@@ -30,9 +30,11 @@ export class ProductsService {
     const finalURL = this.basicURL + params;
     console.log("URL", finalURL);
 
-
+    const httpOptions = {
+      withCredentials: true
+    };
     // console.log("products", this.products$);
-    await this.http.get(finalURL).pipe(
+    await this.http.get(finalURL, httpOptions).pipe(
       map(
         (response: Response) => {
           console.log("returned data", response);

@@ -1,6 +1,7 @@
 <div class="main-login py-2 px-2 pb-4">
   <div class="align-items-center">
-    <button class="btn btn-warning btn-block position-relative" [ngClass]="{'hide': user == undefined, 'show': user != undefined}">
+    <button class="btn btn-warning btn-block position-relative" [ngClass]="{'hide': user == undefined, 'show': user != undefined}"
+      (click)="shop()">
       <div *ngIf="isHasCart" [ngClass]="{'d-none': user == null }">
         <h3>המשך לקנות</h3>
       </div>
@@ -20,5 +21,12 @@
       </div>
       <button type="submit" class="btn btn-success w-50">היכנס</button>
       <button (click)="register()" class="btn btn-primary w-50">הירשם</button>
+
+      <div *ngIf="loginFailed" class="mt-2" style="color: red;" role="alert">
+        אימות נתונים נכשל. אנא נסה שוב.
+      </div>
+      <div *ngIf="noLogin" class="mt-2" style="color: red;" role="alert">
+        אנא הקלד אי-מייל וסיסמה.
+      </div>
     </form>
   </div>

@@ -19,6 +19,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CommercialComponent } from './commercial/commercial.component';
 import { RegisterComponent } from './register/register.component';
 import { MustMatchDirective } from './must-match.directive';
+import { ShopComponent } from './shop/shop.component';
+import { AuthGuard } from './auth.guard';
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import { MustMatchDirective } from './must-match.directive';
     NavbarComponent,
     CommercialComponent,
     RegisterComponent,
-    MustMatchDirective
+    MustMatchDirective,
+    ShopComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,7 @@ import { MustMatchDirective } from './must-match.directive';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ProductsService, CategoryService, UserService],
+  providers: [ProductsService, CategoryService, UserService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

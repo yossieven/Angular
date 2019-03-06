@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { User } from './user';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { Cart } from './cart';
@@ -26,49 +25,27 @@ export class UserService {
    * will check user credentials and send back User data if successful.
    * will subscribe to the User if found and will send back whether user
    * has any active cart.
+   * we are basically catching all errors at this point and sending null to avoid 
+   * death of subject.
    * @param email 
    * @param password 
    */
   checkLogin(email: string, password: string) {
-    const loginURL = this.basicURL + "login";
-    console.log("checkLogin with URL", loginURL, "email: ", email, "password: ", password);
-    const params = {
-      email: email,
-      password: password
-    }
 
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-
-
-    this.http.post(loginURL, params, httpOptions).map(
-      (response: Response) => {
-        console.log("user service, checkLogin: returned data", response);
-        if (response.success) {
-          return response.data;
-        }
-        else {
-          BehaviorSubject.throw('user service, checkLogin: Authentication Failed!');
-        }
-      }).subscribe(
-        res => {
-          console.log("user service, checkLogin: subscribed to user", res);
-          if (res) {
-            this.isUserHasActiveCart(res[0].id).subscribe((boolRes) => { this.isUserHasCart = boolRes; this.user$.next(res); });
-          }
-          else {
-            this.isUserHasCart = false;
-            this.user$.next([]);
-          }
-        },
-        err => {
-          console.log("Error occured");
-        }
-      );
+    this.login(email, password).subscribe(
+      res => {
+        console.log("user service, checkLogin: subscribed to user", res);
+        this.isUserHasActiveCart(res[0].id).subscribe((boolRes) => {
+          this.isUserHasCart = boolRes;
+          this.user$.next(res);
+          console.log('userService: checkLogin - subscribe to user after checking cart', res);
+        });
+      },
+      err => {
+        console.log("Error occured", err);
+        this.user$.next(null);
+      }
+    );
   }
 
   /**
@@ -94,9 +71,26 @@ export class UserService {
         });
   }
 
+  checkSession(): Observable<boolean> {
+    // to check if user has cart and order.
+    const checkSessionURL = this.basicURL + "session/isLogged";
+    console.log("user service, checkSession: check if session active", checkSessionURL);
+    return this.http.get(checkSessionURL).
+      map(
+        (response: Response) => {
+          console.log("user service, checkSession: returned data", response);
+          if (response.success) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        });
+  }
+
   createUser(user: User) {
-    const loginURL = this.basicURL;
-    console.log("createUser with URL", loginURL);
+    const createUserURL = this.basicURL;
+    console.log("createUser with URL", createUserURL);
 
     const params = {
       id: user.id,
@@ -111,11 +105,13 @@ export class UserService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
-      })
+
+      }),
+      withCredentials: true
     };
     const createdUser: Array<User> = [];
     console.log("creating user with params", params);
-    this.http.post(loginURL, params, httpOptions).
+    this.http.post(createUserURL, params, httpOptions).
       map(
         (response: Response) => {
           console.log("user service, createUser: returned data", response);
@@ -137,6 +133,59 @@ export class UserService {
           console.log("there was a problem in creating new user", err);
         }
       );
+  }
+
+  login(email: string, password: string): Observable<User[]> {
+    const loginURL = this.basicURL + "login";
+    console.log("userService: login - with URL", loginURL, "email: ", email, "password: ", password);
+    const params = {
+      email: email,
+      password: password
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+    };
+    return this.http.post(loginURL, params, httpOptions).map(
+      (response: Response) => {
+        console.log("userService: login - returned data", response);
+        if (response.success) {
+          return response.data;
+        }
+        else {
+          console.log("userService: login - failed");
+          throw (new Error('user service, checkLogin: Authentication Failed!'));
+          //return null;
+        }
+      })
+  }
+
+  logout(): Observable<boolean> {
+    const logoutURL = this.basicURL + "/logout";
+    console.log("user service, logout: logout with URL", logoutURL);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+    };
+
+    return this.http.post(logoutURL, null, httpOptions).
+      map(
+        (response) => {
+          console.log("user service, isUserHasActiveCart: returned data", response);
+          if (response == 'exit') {
+            this.user$.next(null);
+            return true;
+          }
+          else {
+            return false;
+          }
+        });
   }
 
 }

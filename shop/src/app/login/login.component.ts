@@ -18,17 +18,7 @@ export class LoginComponent implements OnInit {
   needExit: boolean = false;
 
   constructor(private userService: UserService, private router: Router, private utilityService: UtilitiesService) {
-    // //check if session active
-    // console.log('check if logged in');
-    // this.userService.checkSession().subscribe((boolRes) => {
-    //   if (!boolRes) {
-    //     console.log('login required');
-    //     // this.router.navigate(['home']);
-    //   }
-    //   else {
-    //     console.log("logged in");
-    //   }
-    // });
+
     console.log("login: user before subcription", this.userService.user$);
     this.userService.user$.subscribe(
       data => {

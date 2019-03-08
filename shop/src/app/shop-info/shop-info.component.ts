@@ -49,7 +49,7 @@ export class ShopInfoComponent implements OnInit {
           this.hasOpenCart = false;
           this.cart = null;
         }
-        console.log("shop-info: subscribed to user cart", this.cart);
+
       },
       error: (err) => console.log('shop-info: observer shop info:' + err),
       complete: () => console.log('shop-info: observer shop info complete')

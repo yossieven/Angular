@@ -40,6 +40,7 @@ export class ShopInfoComponent implements OnInit {
 
     this.userService.userCart$.subscribe({
       next: (data) => {
+        console.log("shop-info: subscribed to user cart", data);
         if (data != null) {
           this.hasOpenCart = true;
           this.cart = data

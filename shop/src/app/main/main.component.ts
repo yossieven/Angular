@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsService } from '../products.service';
 import { BehaviorSubject } from 'rxjs/RX';
 import { Product } from '../product';
+import { UserService } from '../user.service';
 
 
 @Component({
@@ -11,7 +12,13 @@ import { Product } from '../product';
 })
 export class MainComponent implements OnInit {
   public myProducts: Product[];
-  constructor(private productService: ProductsService) {
+  constructor(private productService: ProductsService, private userService: UserService) {
+    if (localStorage.getItem('loggedUser') != undefined) {
+      this.userService.getUser(localStorage.getItem('loggedUser'));
+      this.userService.isUserHasActiveCart(localStorage.getItem('loggedUser')).subscribe(res => {
+        console.log("user has cart? ", res);
+      });
+    }
     this.productService.products$.subscribe({
       next: (data) => {
         this.myProducts = data;

@@ -15,12 +15,12 @@ export class NavbarComponent implements OnInit {
 
     this.userService.user$.subscribe({
       next: (data) => {
+        console.log("navbar: subcribe to User", data);
         if (data == null || data.length == 0) {
           this.user = null;
         }
         else {
           this.user = data[0];
-          console.log("navbar: subscribed to user ID", this.user.id);
         }
 
       },
@@ -33,6 +33,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
+    console.log('logging out...');
     this.userService.logout().subscribe((boolRes) => {
       if (boolRes) {
         this.router.navigate(['home']);
@@ -42,4 +43,6 @@ export class NavbarComponent implements OnInit {
       }
     })
   }
+
+  donothing() { }
 }

@@ -21,6 +21,7 @@ import { RegisterComponent } from './register/register.component';
 import { MustMatchDirective } from './must-match.directive';
 import { ShopComponent } from './shop/shop.component';
 import { AuthGuard } from './auth.guard';
+import { UtilitiesService } from './utilities.service';
 
 
 @NgModule({
@@ -46,7 +47,7 @@ import { AuthGuard } from './auth.guard';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ProductsService, CategoryService, UserService, AuthGuard],
+  providers: [ProductsService, CategoryService, UserService, AuthGuard, UtilitiesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

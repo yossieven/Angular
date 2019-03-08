@@ -10,7 +10,7 @@
       </div>
     </button>
     <br>
-    <form #loginForm="ngForm" class="form position-relative" (ngSubmit)="login(loginForm.value)">
+    <form #loginForm="ngForm" class="form position-relative" (ngSubmit)="login(loginForm.value); loginForm.reset()">
       <div class=" form-group">
         <label for="userEmail">אי-מייל:</label>
         <input type="mail" name="userEmail" class="form-control" ngModel>
@@ -20,13 +20,16 @@
         <input type="password" name="userPass" class="form-control" ngModel>
       </div>
       <button type="submit" class="btn btn-success w-50">היכנס</button>
-      <button (click)="register()" class="btn btn-primary w-50">הירשם</button>
+      <button (click)="register(); $event.preventDefault()" class="btn btn-primary w-50">הירשם</button>
 
       <div *ngIf="loginFailed" class="mt-2" style="color: red;" role="alert">
         אימות נתונים נכשל. אנא נסה שוב.
       </div>
       <div *ngIf="noLogin" class="mt-2" style="color: red;" role="alert">
         אנא הקלד אי-מייל וסיסמה.
+      </div>
+      <div *ngIf="needExit" class="mt-2" style="color: red;" role="alert">
+        משתמש קיים מחובר. אנא צא לפני הרשמה חדשה.
       </div>
     </form>
   </div>

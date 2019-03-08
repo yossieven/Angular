@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { User } from '../user';
 import { Router } from '@angular/router';
+import { UtilitiesService } from '../utilities.service';
 
 
 @Component({
@@ -14,8 +15,9 @@ export class LoginComponent implements OnInit {
   isHasCart: boolean = false;
   loginFailed: boolean = false;
   noLogin: boolean = false;
+  needExit: boolean = false;
 
-  constructor(private userService: UserService, private router: Router) {
+  constructor(private userService: UserService, private router: Router, private utilityService: UtilitiesService) {
     // //check if session active
     // console.log('check if logged in');
     // this.userService.checkSession().subscribe((boolRes) => {
@@ -39,6 +41,7 @@ export class LoginComponent implements OnInit {
           console.log("login: subscribe to User - returned from service", this.user);
           this.isHasCart = this.userService.isUserHasCart;
           this.loginFailed = false;
+
         }
       },
       error => {
@@ -77,8 +80,18 @@ export class LoginComponent implements OnInit {
   }
 
   register() {
-    console.log("navigating");
-    this.router.navigate(['../register']);
+    if (!this.utilityService.isUserLogged()) {
+      console.log("navigating");
+      this.router.navigate(['../register']);
+      this.noLogin = false;
+      this.loginFailed = false;
+      this.needExit = false;
+    }
+    else {
+      this.noLogin = false;
+      this.loginFailed = false;
+      this.needExit = true;
+    }
   }
 
   shop() {

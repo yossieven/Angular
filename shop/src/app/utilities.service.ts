@@ -6,4 +6,13 @@ import { Injectable } from '@angular/core';
 export class UtilitiesService {
 
   constructor() { }
+
+  isUserLogged() {
+    if (localStorage.getItem('loggedUser') != undefined) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 }

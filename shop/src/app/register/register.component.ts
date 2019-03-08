@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Cities } from '../cities';
-import { identifierModuleUrl } from '@angular/compiler';
 import { UserService } from '../user.service';
 import { User } from '../user';
 import { Router } from '@angular/router';
+import { UtilitiesService } from '../utilities.service';
 
 @Component({
   selector: 'app-register',
@@ -22,12 +22,15 @@ export class RegisterComponent implements OnInit {
   @ViewChild('email') emailInputRef: ElementRef;
   @ViewChild('confirmPassword') confirmInputRef: ElementRef;
   @ViewChild('password') passwordInputRef: ElementRef;
-  constructor(private userService: UserService, private router: Router) {
+
+  constructor(private userService: UserService, private router: Router, private utilityService: UtilitiesService) {
     this.userService.user$.subscribe(
       data => {
         this.createdUser = data[0];
-        console.log("register: returned from service", this.createdUser);
+        console.log("register: returned from service", data);
         if (this.createdUser != null) {
+          //this.userService.checkLogin(this.createdUser.email, this.createdUser.password);
+          localStorage.setItem('loggedUser', this.createdUser.id);
           router.navigate(['home']);
         }
       },
@@ -54,7 +57,7 @@ export class RegisterComponent implements OnInit {
     this.idInputRef.nativeElement.focus();
   }
 
-  registerUser(form1: any, form2: any) {
+  async registerUser(form1: any, form2: any) {
     console.log(form1.value.registerID);
     console.log(form2.value);
     if (form2.valid) {
@@ -66,7 +69,9 @@ export class RegisterComponent implements OnInit {
       this.registeredUser.street = form2.value.registerStreet;
       this.registeredUser.name = form2.value.registerName;
       this.registeredUser.last_name = form2.value.registerLastName;
-      this.userService.createUser(this.registeredUser);
+      await this.userService.createUser(this.registeredUser);
+
+
 
     }
 

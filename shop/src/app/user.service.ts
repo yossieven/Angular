@@ -19,7 +19,9 @@ export class UserService {
   public isUserHasCart: boolean = false;
   public userCart$ = new BehaviorSubject<Cart>(null);
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+
+  }
 
   /**
    * will check user credentials and send back User data if successful.
@@ -73,9 +75,9 @@ export class UserService {
 
   checkSession(): Observable<boolean> {
     // to check if user has cart and order.
-    const checkSessionURL = this.basicURL + "session/isLogged";
+    const checkSessionURL = this.basicURL + "session/isLogged?id=" + localStorage.getItem('loggedUser');
     console.log("user service, checkSession: check if session active", checkSessionURL);
-    return this.http.get(checkSessionURL).
+    return this.http.get(checkSessionURL, { headers: new HttpHeaders({ 'Content-Type': 'application/json' }), withCredentials: true }).
       map(
         (response: Response) => {
           console.log("user service, checkSession: returned data", response);
@@ -109,50 +111,55 @@ export class UserService {
       }),
       withCredentials: true
     };
-    const createdUser: Array<User> = [];
+
     console.log("creating user with params", params);
-    this.http.post(createUserURL, params, httpOptions).
-      map(
-        (response: Response) => {
-          console.log("user service, createUser: returned data", response);
-          if (response.success) {
-            console.log("created");
-            createdUser.push(user);
-            this.user$.next(createdUser);
-          }
-          else {
-            console.log("not created");
-            this.user$.next(null);
-          }
-        })
+    this.http.post(createUserURL, params, httpOptions)
+      .map((response: Response) => {
+        if (response.success) {
+          return response.data;
+        }
+        else {
+          return null;
+        }
+      })
       .subscribe(
         res => {
-          console.log("created new user successfully", res);
-        },
-        err => {
-          console.log("there was a problem in creating new user", err);
+          if (res != null) {
+            console.log("created new user successfully", res);
+            this.user$.next(res);
+          }
         }
       );
+    console.log("done creating user");
   }
 
+  /**
+   * call REST to check whether email and password are ok.
+   * if success, register the user id in local storage. 
+   * Otherwise throw error.
+   * @param email 
+   * @param password 
+   */
   login(email: string, password: string): Observable<User[]> {
     const loginURL = this.basicURL + "login";
     console.log("userService: login - with URL", loginURL, "email: ", email, "password: ", password);
+
     const params = {
       email: email,
       password: password
     }
 
-    const httpOptions = {
+    return this.http.post(loginURL, params, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       }),
       withCredentials: true
-    };
-    return this.http.post(loginURL, params, httpOptions).map(
+
+    }).map(
       (response: Response) => {
         console.log("userService: login - returned data", response);
         if (response.success) {
+          localStorage.setItem('loggedUser', response.data[0].id);
           return response.data;
         }
         else {
@@ -164,22 +171,24 @@ export class UserService {
   }
 
   logout(): Observable<boolean> {
-    const logoutURL = this.basicURL + "/logout";
+    const logoutURL = this.basicURL + "logout";
     console.log("user service, logout: logout with URL", logoutURL);
 
-    const httpOptions = {
+    return this.http.post(logoutURL, null, {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json'
+        'Content-Type': 'text/html'
       }),
-      withCredentials: true
-    };
-
-    return this.http.post(logoutURL, null, httpOptions).
+      withCredentials: true,
+      responseType: 'text'
+    }).
       map(
         (response) => {
-          console.log("user service, isUserHasActiveCart: returned data", response);
-          if (response == 'exit') {
-            this.user$.next(null);
+          console.log("user service, logout: returned data", response);
+          if (response === 'exit') {
+            this.user$.next([]);
+            localStorage.removeItem('loggedUser');
+            this.userCart$.next(null);
+            this.isUserHasCart = false;
             return true;
           }
           else {
@@ -188,4 +197,25 @@ export class UserService {
         });
   }
 
+  getUser(id: string) {
+    // to check if user has cart and order.
+    const getUserURL = this.basicURL + id;
+    console.log("user service, getUser: with URL", getUserURL);
+    this.http.get(getUserURL).
+      map(
+        (response: Response) => {
+          console.log("user service, getUser: returned data", response);
+          if (response.success) {
+            return response.data;
+          }
+          else {
+            return null;
+            this.user$.next(null);
+          }
+        }).subscribe(res => {
+          this.user$.next(res);
+          console.log("get user successfully", res);
+        }
+        );;
+  }
 }

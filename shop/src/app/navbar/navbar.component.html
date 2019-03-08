@@ -1,6 +1,5 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-light">
   <a class="navbar-brand" href="#" *ngIf="user != null">שלום {{user.name}} {{user.email}}</a>
   <a class="navbar-brand" href="#" *ngIf="user == null">שלום אורח</a>
-  <a class="ml-auto" href="#" (click)="logout()">יציאה</a>
-
+  <a class="ml-auto" [routerLink]="" (click)="logout()">יציאה</a>
 </nav>

@@ -210,7 +210,7 @@ export class UserService {
           }
           else {
             return null;
-            this.user$.next(null);
+
           }
         }).subscribe(res => {
           this.user$.next(res);

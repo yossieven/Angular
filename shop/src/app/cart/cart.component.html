@@ -1,4 +1,8 @@
 <div class="cart-main">
+  <div *ngIf="!isHasItems" class="text-center">
+    <h3>אין פריטים בעגלה</h3>
+    <p>הוסף פריטים לקנייה</p>
+  </div>
   <div *ngFor="let item of items" class="ml-2 mb-2 cart-container">
     <app-item [item]="item"></app-item>
 

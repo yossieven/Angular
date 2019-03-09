@@ -1,0 +1,6 @@
+.cart-main {
+  background-image: radial-gradient(white, rgb(18, 18, 252));
+  border: 1px double black;
+  border-radius: 10px;
+  height: 80vh;
+}

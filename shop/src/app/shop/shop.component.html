@@ -1,3 +1,11 @@
-<div class="shop-main">
-
+<div class="container-fluid">
+  <div class="shop-main row">
+    <div class="col-3">
+      <app-cart></app-cart>
+    </div>
+    <div class="col-9">
+      <app-category-navbar (selectedCategory)="displayProducts($event)"></app-category-navbar>
+      <app-product-category [selectedCategory]="category"></app-product-category>
+    </div>
+  </div>
 </div>

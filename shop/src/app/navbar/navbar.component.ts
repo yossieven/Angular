@@ -3,6 +3,7 @@ import { UserService } from '../user.service';
 import { User } from '../user';
 import { Router } from '@angular/router';
 import { routerNgProbeToken } from '@angular/router/src/router_module';
+import { UtilitiesService } from '../utilities.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,8 +12,10 @@ import { routerNgProbeToken } from '@angular/router/src/router_module';
 })
 export class NavbarComponent implements OnInit {
   private user: User = null;
-  constructor(private userService: UserService, private router: Router) {
-
+  constructor(private userService: UserService, private router: Router, private utilityService: UtilitiesService) {
+    if (this.utilityService.isUserLogged()) {
+      this.userService.getUser(localStorage.getItem('loggedUser'));
+    }
     this.userService.user$.subscribe({
       next: (data) => {
         console.log("navbar: subcribe to User", data);

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductsService } from '../products.service';
-import { BehaviorSubject } from 'rxjs/RX';
+import { BehaviorSubject, Subscription } from 'rxjs/RX';
 import { Product } from '../product';
 import { UserService } from '../user.service';
 
@@ -10,8 +10,11 @@ import { UserService } from '../user.service';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
+
   public myProducts: Product[];
+  productSubscription: Subscription;
+
   constructor(private productService: ProductsService, private userService: UserService) {
     if (localStorage.getItem('loggedUser') != undefined) {
       this.userService.getUser(localStorage.getItem('loggedUser'));
@@ -19,7 +22,7 @@ export class MainComponent implements OnInit {
         console.log("user has cart? ", res);
       });
     }
-    this.productService.products$.subscribe({
+    this.productSubscription = this.productService.products$.subscribe({
       next: (data) => {
         this.myProducts = data;
         console.log("main: subscribe to products - products", this.myProducts);
@@ -36,4 +39,7 @@ export class MainComponent implements OnInit {
 
   }
 
+  ngOnDestroy(): void {
+    this.productSubscription.unsubscribe();
+  }
 }

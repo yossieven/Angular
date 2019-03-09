@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProductsService } from '../products.service';
 import { OrdersService, Response } from '../orders.service';
 import { Order } from '../order';
 import { UserService } from '../user.service';
 import { Cart } from '../cart';
 import { User } from '../user';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { User } from '../user';
   templateUrl: './shop-info.component.html',
   styleUrls: ['./shop-info.component.css']
 })
-export class ShopInfoComponent implements OnInit {
+export class ShopInfoComponent implements OnInit, OnDestroy {
 
   numberOfProducts = 0;
   numberOfOrders = 0;
@@ -22,8 +23,13 @@ export class ShopInfoComponent implements OnInit {
   userOrder: Order = null;
   orders: Order[] = [];
 
+  productSubscription: Subscription;
+  ordersSubscription: Subscription;
+  cartSubscription: Subscription;
+  userSubscription: Subscription;
+
   constructor(private productService: ProductsService, private orderService: OrdersService, private userService: UserService) {
-    this.productService.products$.subscribe({
+    this.productSubscription = this.productService.products$.subscribe({
       next: (data) => {
         console.log("shop-info: subscribed to products");
         this.numberOfProducts = data.length
@@ -32,13 +38,13 @@ export class ShopInfoComponent implements OnInit {
       complete: () => console.log('shop-info: observerc:')
     });
 
-    this.orderService.getAllOrders().subscribe((response: Response) => {
+    this.ordersSubscription = this.orderService.getAllOrders().subscribe((response: Response) => {
       console.log("shop-info: subcribe to all orders");
       this.numberOfOrders = response.data.length
       this.orders = response.data;
     });
 
-    this.userService.userCart$.subscribe({
+    this.cartSubscription = this.userService.userCart$.subscribe({
       next: (data) => {
         console.log("shop-info: subscribed to user cart", data);
         if (data != null) {
@@ -55,7 +61,7 @@ export class ShopInfoComponent implements OnInit {
       complete: () => console.log('shop-info: observer shop info complete')
     });
 
-    this.userService.user$.subscribe({
+    this.userSubscription = this.userService.user$.subscribe({
       next: (data) => {
         console.log("shop-info: subscribe to User - data", data);
         if (data == null || data.length == 0) {
@@ -75,6 +81,13 @@ export class ShopInfoComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.productSubscription.unsubscribe();
+    this.ordersSubscription.unsubscribe();
+    this.cartSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 
 }

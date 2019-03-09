@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-light">
-  <a class="navbar-brand" href="#" *ngIf="user != null">שלום {{user.name}} {{user.email}}</a>
-  <a class="navbar-brand" href="#" *ngIf="user == null">שלום אורח</a>
+  <span class="navbar-brand" href="#" *ngIf="user != null">שלום {{user.name}} {{user.email}}</span>
+  <span class="navbar-brand" href="#" *ngIf="user == null">שלום אורח</span>
   <a class="ml-auto" [routerLink]="" (click)="logout()">יציאה</a>
 </nav>

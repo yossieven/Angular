@@ -22,6 +22,10 @@ import { MustMatchDirective } from './must-match.directive';
 import { ShopComponent } from './shop/shop.component';
 import { AuthGuard } from './auth.guard';
 import { UtilitiesService } from './utilities.service';
+import { CategoryNavbarComponent } from './category-navbar/category-navbar.component';
+import { CartComponent } from './cart/cart.component';
+import { ItemComponent } from './item/item.component';
+import { QuantityModalComponent } from './quantity-modal/quantity-modal.component';
 
 
 @NgModule({
@@ -38,7 +42,11 @@ import { UtilitiesService } from './utilities.service';
     CommercialComponent,
     RegisterComponent,
     MustMatchDirective,
-    ShopComponent
+    ShopComponent,
+    CategoryNavbarComponent,
+    CartComponent,
+    ItemComponent,
+    QuantityModalComponent
   ],
   imports: [
     BrowserModule,

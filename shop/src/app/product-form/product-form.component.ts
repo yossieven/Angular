@@ -52,7 +52,7 @@ export class ProductFormComponent implements OnInit {
     };
     this.categoryService.getCategories('');
     console.log("getting categories...");
-    this.categoryService.categories.subscribe(
+    this.categoryService.categories$.subscribe(
       data => this.categories = data,
       error => console.error("Error in retrieving categories: ", error)
     );

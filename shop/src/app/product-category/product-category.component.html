@@ -1,9 +1,9 @@
-<div class="container-fluid">
-  <div class="row">
+<div class="products-main mt-2">
+  <div *ngIf="showQuantityModal">
+    <app-quantity-modal (closeModal)="closeModal($event)" (setQuantity)="addToCart($event)"></app-quantity-modal>
+  </div>
+  <div *ngFor="let product of myProducts" class="ml-2 mb-2 products-container">
+    <app-product [product]="product" (showQuantityModal)="displayQuantityModal($event)"></app-product>
 
-    <div *ngFor="let product of myProducts" class="ml-2 mb-2">
-      <app-product [product]="product"></app-product>
-
-    </div>
   </div>
 </div>

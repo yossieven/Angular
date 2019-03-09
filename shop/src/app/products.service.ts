@@ -38,7 +38,26 @@ export class ProductsService {
       map(
         (response: Response) => {
           console.log("returned data", response);
-          response.data[0].image = 'http://localhost:3000/assets/images/' + response.data[0].image;
+          //response.data[0].image = 'http://localhost:3000/assets/images/' + response.data[0].image;
+          return response.data;
+
+        })).subscribe(response => this.products$.next(response))
+  }
+
+  async getProductsByCategory(category: string) {
+
+    const finalURL = this.basicURL + '/category/' + category;
+    console.log("URL", finalURL);
+
+    const httpOptions = {
+      withCredentials: true
+    };
+    // console.log("products", this.products$);
+    await this.http.get(finalURL, httpOptions).pipe(
+      map(
+        (response: Response) => {
+          console.log("returned data", response);
+          //response.data[0].image = 'http://localhost:3000/assets/images/' + response.data[0].image;
           return response.data;
 
         })).subscribe(response => this.products$.next(response))

@@ -13,7 +13,7 @@ export interface Category {
   providedIn: 'root'
 })
 export class CategoryService {
-  public categories = new BehaviorSubject<Category[]>([]);
+  public categories$ = new BehaviorSubject<Category[]>([]);
   constructor(private http: HttpClient) { }
 
   async getCategories(specific: string) {
@@ -31,6 +31,6 @@ export class CategoryService {
           console.log("categories response = ", response.data);
           return response.data;
 
-        })).subscribe(response => this.categories.next(response))
+        })).subscribe(response => this.categories$.next(response))
   }
 }

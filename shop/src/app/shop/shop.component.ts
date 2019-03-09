@@ -12,12 +12,16 @@ export class ShopComponent implements OnInit {
 
   user: User = null;
   isHasCart: boolean = false;
+  category: string;
 
   constructor(private userService: UserService, private router: Router) {
     //check if session active
     this.userService.checkSession().subscribe((boolRes) => {
       if (!boolRes) {
         console.log('login required');
+        if (localStorage.getItem('loggedUser') != undefined) {
+          localStorage.removeItem('loggedUser');
+        }
         this.router.navigate(['home']);
       }
 
@@ -46,4 +50,8 @@ export class ShopComponent implements OnInit {
 
   }
 
+  displayProducts(category) {
+    console.log("ShopComponent: displayProducts - selectedCategory was emitted in parent")
+    this.category = category;
+  }
 }

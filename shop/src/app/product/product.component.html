@@ -1,8 +1,8 @@
-<div class="card" style="width: 12rem;">
+<div class="card mx-1 my-1" style="width: 12rem;">
   <img class="card-img-top" src="http://localhost:3000/assets/images/{{product.image}}" alt="{{product.name}}">
   <div class="card-body">
     <h5 class="card-title">{{product.name}}</h5>
     <p class="card-text">מחיר: {{product.price | number: '1.2-2'}}</p>
-    <a href="#" class="btn btn-primary">הוסף לסל</a>
+    <button (click)="addToCart(product)" class="btn btn-primary">הוסף לסל</button>
   </div>
 </div>

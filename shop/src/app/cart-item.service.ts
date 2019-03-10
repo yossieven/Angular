@@ -75,12 +75,7 @@ export class CartItemService {
         res => {
           if (res != null) {
             console.log("created new item successfully", res);
-            //this.getItemById(res.id).subscribe(res => console.log("CartItemService: addItemToCart - getItemById resulted in ", res));
             this.getItems(item.cart_id.toString());
-            //console.log("current items", this.currentCartItems);
-            //this.currentCartItems.push(res);
-
-            //this.items$.next(this.currentCartItems);
           }
         }
       );

@@ -3,6 +3,20 @@
     <h3>אין פריטים בעגלה</h3>
     <p>הוסף פריטים לקנייה</p>
   </div>
+  <div class="fixed-top row" style="position:relative;">
+    <div class="col-2 item-header">
+      <span></span>
+    </div>
+    <div class="col-4 item-header text-center">
+      <span>Name</span>
+    </div>
+    <div class="col-1 item-header text-center">
+      <span>Qty</span>
+    </div>
+    <div class="col-2 item-header text-center">
+      <span>Total</span>
+    </div>
+  </div>
   <div *ngFor="let item of items" class="ml-2 mb-2 cart-container">
     <app-item [item]="item"></app-item>
 

@@ -4,3 +4,8 @@
   border-radius: 10px;
   height: 80vh;
 }
+
+.item-header {
+  padding: 0px;
+  font-weight: bold;
+}

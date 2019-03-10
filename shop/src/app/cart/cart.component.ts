@@ -4,6 +4,7 @@ import { User } from '../user';
 import { CartItemService } from '../cart-item.service';
 import { CartItem } from '../cart-item';
 import { Cart } from '../cart';
+import { DetailsItem } from '../details-item';
 
 @Component({
   selector: 'app-cart',
@@ -14,7 +15,7 @@ export class CartComponent implements OnInit {
 
   isHasCart: boolean = false;
   isHasItems: boolean = true;
-  items: CartItem[];
+  items: DetailsItem[];
   user: User;
   @Input() cart: Cart;
 

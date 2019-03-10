@@ -46,7 +46,7 @@ export class ProductsService {
 
   async getProductsByCategory(category: string) {
 
-    const finalURL = this.basicURL + '/category/' + category;
+    const finalURL = this.basicURL + 'category/' + category;
     console.log("URL", finalURL);
 
     const httpOptions = {

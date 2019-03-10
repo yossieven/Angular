@@ -4,6 +4,8 @@ import { Product } from '../product';
 import { CartItemService } from '../cart-item.service';
 import { CartItem } from '../cart-item';
 import { Cart } from '../cart';
+import { DetailsItem } from '../details-item';
+import { nextContext } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-product-category',
@@ -17,6 +19,7 @@ export class ProductCategoryComponent implements OnInit, OnChanges {
   constructor(private productService: ProductsService, private cartItemService: CartItemService) { }
   @Input() selectedCategory: string;
   @Input() cart: Cart;
+  @Input() cartItems: DetailsItem[];
   showQuantityModal: boolean = false;
   selectedProduct: Product;
 
@@ -48,7 +51,6 @@ export class ProductCategoryComponent implements OnInit, OnChanges {
     console.log("ProductCategoryComponent: ngOnChanges - value of input selected category is ", this.selectedCategory);
     console.log("ProductCategoryComponent: ngOnChanges - value of input cart is ", this.cart);
     this.productService.getProductsByCategory(this.selectedCategory);
-
   }
 
   addToCart(quantity: number) {
@@ -58,7 +60,20 @@ export class ProductCategoryComponent implements OnInit, OnChanges {
     itemToAdd.amount = quantity;
     itemToAdd.product_id = this.selectedProduct.id;
     itemToAdd.total = quantity * this.selectedProduct.price;
-    this.cartItemService.addItemToCart(itemToAdd);
+    let isFoundMatch: boolean = false;
+    if (this.cartItems != null && this.cartItems != undefined) {
+      this.cartItems.forEach((item) => {
+        if (item.product_id == itemToAdd.product_id) {
+          itemToAdd.amount = itemToAdd.amount + item.amount;
+          itemToAdd.id = item.id;
+          isFoundMatch = true;
+          this.cartItemService.updateItem(itemToAdd);
+        }
+      })
+    }
+    if (!isFoundMatch) {
+      this.cartItemService.addItemToCart(itemToAdd);
+    }
   }
 
 }

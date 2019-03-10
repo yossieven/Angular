@@ -1,11 +1,11 @@
 <div class="container-fluid">
   <div class="shop-main row">
     <div class="col-3">
-      <app-cart [cart]="cart"></app-cart>
+      <app-cart [cart]="cart" (cartItems)="cartItemsReport($event)"></app-cart>
     </div>
     <div class="col-9">
       <app-category-navbar (selectedCategory)="displayProducts($event)"></app-category-navbar>
-      <app-product-category [selectedCategory]="category" [cart]="cart"></app-product-category>
+      <app-product-category [selectedCategory]="category" [cart]="cart" [cartItems]="currentCartItems"></app-product-category>
     </div>
   </div>
 </div>

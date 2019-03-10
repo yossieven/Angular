@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UserService } from '../user.service';
 import { User } from '../user';
 import { CartItemService } from '../cart-item.service';
@@ -18,6 +18,7 @@ export class CartComponent implements OnInit {
   items: DetailsItem[];
   user: User;
   @Input() cart: Cart;
+  @Output() cartItems: EventEmitter<DetailsItem[]> = new EventEmitter(); //send current items in cart to shop
 
   constructor(private userService: UserService, private cartItemsService: CartItemService) {
     this.userService.user$.subscribe(
@@ -45,6 +46,7 @@ export class CartComponent implements OnInit {
           this.items = data;
           console.log("CartComponent: subscribe to items - returned from service", this.items);
           this.isHasItems = true;
+          this.cartItems.emit(this.items);
         }
         console.log("CartComponent: subscribe to User - does user have items?", this.isHasItems);
       },

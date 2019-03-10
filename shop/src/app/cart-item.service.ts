@@ -61,6 +61,7 @@ export class CartItemService {
       withCredentials: true
     };
 
+
     console.log("CartItemService: addItemToCart - creating item with params", item);
     this.http.post(this.basicURL, item, httpOptions)
       .map((response: Response) => {
@@ -97,5 +98,42 @@ export class CartItemService {
           console.log("returned data", response.data[0]);
           return response.data[0] as DetailsItem;
         }));
+  }
+
+  updateItem(item: CartItem) {
+    const finalURL = this.basicURL + item.id;
+
+    console.log("URL", finalURL);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Origin': 'http://localhost:4200'
+      }),
+      withCredentials: true
+    };
+
+    return this.http.put(finalURL, item, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Origin': 'http://localhost:4200'
+      }),
+      withCredentials: true
+    })
+      .map(
+        (response: Response) => {
+          console.log("returned data", response.data[0]);
+          return response.data[0] as DetailsItem;
+        })
+      .subscribe(
+        res => {
+          if (res != null) {
+            console.log("updated item amount successfully", res);
+            this.getItems(item.cart_id.toString());
+          }
+          err => {
+            console.log("update error", err);
+          }
+        });
   }
 }

@@ -4,6 +4,7 @@ import { User } from '../user';
 import { Router } from '@angular/router';
 import { Cart } from '../cart';
 import { CartItemService } from '../cart-item.service';
+import { DetailsItem } from '../details-item';
 
 @Component({
   selector: 'app-shop',
@@ -16,6 +17,7 @@ export class ShopComponent implements OnInit {
   isHasCart: boolean = false;
   category: string;
   cart: Cart;
+  currentCartItems: DetailsItem[];
 
   constructor(private userService: UserService, private cartItemsService: CartItemService, private router: Router) {
     //check if session active
@@ -77,5 +79,9 @@ export class ShopComponent implements OnInit {
   displayProducts(category) {
     console.log("ShopComponent: displayProducts - selectedCategory was emitted in parent")
     this.category = category;
+  }
+
+  cartItemsReport(items: DetailsItem[]) {
+    this.currentCartItems = items;
   }
 }

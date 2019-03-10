@@ -7,20 +7,16 @@ import { DetailsItem } from './details-item';
 
 export interface Response {
   success: boolean,
-  data: CartItem[]
-}
-
-export interface ResponseDetailed {
-  success: boolean,
   data: DetailsItem[]
 }
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartItemService {
-  public items$ = new BehaviorSubject<CartItem[]>([]);
-  public currentCartItems: CartItem[] = [];
+  public items$ = new BehaviorSubject<DetailsItem[]>([]);
+  public currentCartItems: DetailsItem[] = [];
   private basicURL = 'http://localhost:3000/api/cartItems/';
   public detailedItem: DetailsItem;
 
@@ -68,8 +64,9 @@ export class CartItemService {
     console.log("creating item with params", item);
     this.http.post(this.basicURL, item, httpOptions)
       .map((response: Response) => {
+        console.log("adding cart item response", response);
         if (response.success) {
-          return response.data;
+          return response.data[0];
         }
         else {
           return null;
@@ -77,9 +74,11 @@ export class CartItemService {
       })
       .subscribe(
         res => {
+          console.log("CartItemService: addItemToCart - getItemById resulted in ", res);
           if (res != null) {
             console.log("created new item successfully", res);
-            this.currentCartItems.push(res[0]);
+            this.getItemById(res.id).subscribe(res => console.log("CartItemService: addItemToCart - getItemById resulted in ", res));
+            this.currentCartItems.push(res);
             this.items$.next(this.currentCartItems);
           }
         }
@@ -97,10 +96,10 @@ export class CartItemService {
       withCredentials: true
     };
 
-    return this.http.get<ResponseDetailed>(finalURL, httpOptions).pipe(
+    return this.http.get<Response>(finalURL, httpOptions).pipe(
       map(
         (response) => {
-          console.log("returned data", response);
+          console.log("returned data", response.data[0]);
           return response.data[0] as DetailsItem;
         }));
   }

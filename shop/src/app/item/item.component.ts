@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { CartItem } from '../cart-item';
 import { CartItemService } from '../cart-item.service';
 import { DetailsItem } from '../details-item';
 
@@ -11,12 +10,13 @@ import { DetailsItem } from '../details-item';
 export class ItemComponent implements OnInit {
 
 
-  @Input() item: CartItem;
+  @Input() item: DetailsItem;
   detailedItem: DetailsItem;
 
   constructor(private cartItemService: CartItemService) { }
 
   ngOnInit() {
+    console.log("ItemComponent: ngOnInit - detailed item is", this.item);
 
   }
 

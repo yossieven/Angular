@@ -61,10 +61,9 @@ export class CartItemService {
       withCredentials: true
     };
 
-    console.log("creating item with params", item);
+    console.log("CartItemService: addItemToCart - creating item with params", item);
     this.http.post(this.basicURL, item, httpOptions)
       .map((response: Response) => {
-        console.log("adding cart item response", response);
         if (response.success) {
           return response.data[0];
         }
@@ -74,16 +73,17 @@ export class CartItemService {
       })
       .subscribe(
         res => {
-          console.log("CartItemService: addItemToCart - getItemById resulted in ", res);
           if (res != null) {
             console.log("created new item successfully", res);
-            this.getItemById(res.id).subscribe(res => console.log("CartItemService: addItemToCart - getItemById resulted in ", res));
-            this.currentCartItems.push(res);
-            this.items$.next(this.currentCartItems);
+            //this.getItemById(res.id).subscribe(res => console.log("CartItemService: addItemToCart - getItemById resulted in ", res));
+            this.getItems(item.cart_id.toString());
+            //console.log("current items", this.currentCartItems);
+            //this.currentCartItems.push(res);
+
+            //this.items$.next(this.currentCartItems);
           }
         }
       );
-    console.log("done creating item");
   }
 
   getItemById(id): Observable<DetailsItem> {

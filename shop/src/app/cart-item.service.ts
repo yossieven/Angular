@@ -113,13 +113,7 @@ export class CartItemService {
       withCredentials: true
     };
 
-    return this.http.put(finalURL, item, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Origin': 'http://localhost:4200'
-      }),
-      withCredentials: true
-    })
+    return this.http.put(finalURL, item, httpOptions)
       .map(
         (response: Response) => {
           console.log("returned data", response.data[0]);

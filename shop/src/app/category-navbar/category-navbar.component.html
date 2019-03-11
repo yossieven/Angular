@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-light">
-  <form class="form-inline my-2 my-lg-0">
+  <form #lookupForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="productLookup(lookupForm.value)">
     <input class="form-control mr-sm-2" type="search" placeholder="חפש מוצר">
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">חפש</button>
   </form>

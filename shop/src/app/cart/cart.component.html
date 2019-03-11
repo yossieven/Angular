@@ -1,24 +1,36 @@
 <div class="cart-main">
-  <div *ngIf="!isHasItems" class="text-center">
+  <div *ngIf="!isHasItems" class="text-center no-items" style="position:relative;">
     <h3>אין פריטים בעגלה</h3>
     <p>הוסף פריטים לקנייה</p>
   </div>
-  <div class="fixed-top row" style="position:relative;">
+  <div *ngIf="isHasItems" class="fixed-top row" style="position:relative;">
     <div class="col-2 item-header">
       <span></span>
     </div>
     <div class="col-4 item-header text-center">
-      <span>Name</span>
+      <span>מוצר</span>
     </div>
     <div class="col-1 item-header text-center">
-      <span>Qty</span>
+      <span>כמות</span>
     </div>
     <div class="col-2 item-header text-center">
-      <span>Total</span>
+      <span>פריטים</span>
+    </div>
+    <div class="col-3 item-header text-center">
+      <span>תמונה</span>
     </div>
   </div>
-  <div *ngFor="let item of items" class="ml-2 mb-2 cart-container">
-    <app-item [item]="item"></app-item>
-
+  <div *ngIf="isHasItems" class="item-container">
+    <div *ngFor="let item of items" class="ml-2 mb-2 cart-container">
+      <app-item [item]="item" [cartId]="cart.id"></app-item>
+    </div>
   </div>
+  <div class="fixed-bottom row" style="position:relative;">
+    <div class="col-2 ml-2">סה"כ:</div>
+    <div class="col-7"></div>
+    <div class="col-2">
+      <a href="#" [routerLink]="" style="color:black;">הזמן</a>
+    </div>
+  </div>
+
 </div>

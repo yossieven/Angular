@@ -55,6 +55,7 @@ export class ProductCategoryComponent implements OnInit, OnChanges {
 
   addToCart(quantity: number) {
     console.log("ProductCategoryComponent: addToCart - got quantity", quantity);
+    console.log("this cartItems", this.cartItems);
     let itemToAdd = new CartItem();
     itemToAdd.cart_id = this.cart.id;
     itemToAdd.amount = quantity;
@@ -64,7 +65,7 @@ export class ProductCategoryComponent implements OnInit, OnChanges {
     if (this.cartItems != null && this.cartItems != undefined) {
       this.cartItems.forEach((item) => {
         if (item.product_id == itemToAdd.product_id) {
-          itemToAdd.amount = itemToAdd.amount + item.amount;
+          itemToAdd.amount = +itemToAdd.amount + +item.amount;
           itemToAdd.id = item.id;
           isFoundMatch = true;
           this.cartItemService.updateItem(itemToAdd);

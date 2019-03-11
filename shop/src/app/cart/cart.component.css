@@ -3,9 +3,20 @@
   border: 1px double black;
   border-radius: 10px;
   height: 80vh;
+
 }
 
 .item-header {
   padding: 0px;
   font-weight: bold;
+}
+
+.item-container {
+  height: 72vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.no-items {
+  height: 75.5vh;
 }

@@ -1,3 +1,10 @@
 .products-main {
-  /* overflow: auto; */
+  height: 72vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.products-container {
+  overflow: hidden;
+  display: inline-block;
 }

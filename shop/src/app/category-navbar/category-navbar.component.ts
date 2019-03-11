@@ -29,4 +29,8 @@ export class CategoryNavbarComponent implements OnInit {
     this.selectedCategory.emit(id);
 
   }
+
+  lookupProduct(value: any) {
+
+  }
 }

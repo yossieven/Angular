@@ -1,16 +1,19 @@
 <div class="row">
-  <div class="col-2">
-    <button type="button" class="btn btn-danger btn-sm" (click)="removeItem()" aria-label="Delete">
+  <div class="col-2 my-auto">
+    <button type="button" class="btn btn-danger btn-sm " (click)="removeItem(item.id, cartId)" aria-label="Delete">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="col-4 item-display text-center">
+  <div class="col-4 my-auto item-display text-center">
     <span>{{item.name}}</span>
   </div>
-  <div class="col-1 item-display text-center">
+  <div class="col-1 my-auto item-display text-center">
     <span>{{item.amount}}</span>
   </div>
-  <div class="col-2 item-display text-center">
+  <div class="col-2 my-auto item-display text-center">
     <span>{{item.total}}</span>
+  </div>
+  <div class="col-3 my-auto">
+    <img class="item-img" src="http://localhost:3000/assets/images/{{item.image}}" alt="{{item.name}}">
   </div>
 </div>

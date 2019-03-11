@@ -107,13 +107,12 @@ export class CartItemService {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Origin': 'http://localhost:4200'
+        'Content-Type': 'application/json'
       }),
       withCredentials: true
     };
 
-    return this.http.put(finalURL, item, httpOptions)
+    return this.http.post(finalURL, item, httpOptions)
       .map(
         (response: Response) => {
           console.log("returned data", response.data[0]);
@@ -124,6 +123,36 @@ export class CartItemService {
           if (res != null) {
             console.log("updated item amount successfully", res);
             this.getItems(item.cart_id.toString());
+          }
+          err => {
+            console.log("update error", err);
+          }
+        });
+  }
+
+  deleteCartItem(id, cartId) {
+    const finalURL = this.basicURL + id;
+
+    console.log("URL", finalURL);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+    };
+
+    return this.http.delete(finalURL, httpOptions)
+      .map(
+        (response: Response) => {
+          console.log("returned data", response.data);
+          return response.data;
+        })
+      .subscribe(
+        res => {
+          if (res != null) {
+            console.log("deleted item successfully", res);
+            this.getItems(cartId.toString());
           }
           err => {
             console.log("update error", err);

@@ -41,13 +41,14 @@ export class CartComponent implements OnInit {
       data => {
         if (data == null || data.length == 0) {
           this.isHasItems = false;
+          this.items = null;
         }
         else {
           this.items = data;
           console.log("CartComponent: subscribe to items - returned from service", this.items);
           this.isHasItems = true;
-          this.cartItems.emit(this.items);
         }
+        this.cartItems.emit(this.items);
         console.log("CartComponent: subscribe to User - does user have items?", this.isHasItems);
       },
       error => {

@@ -66,6 +66,7 @@ export class ProductCategoryComponent implements OnInit, OnChanges {
       this.cartItems.forEach((item) => {
         if (item.product_id == itemToAdd.product_id) {
           itemToAdd.amount = +itemToAdd.amount + +item.amount;
+          itemToAdd.total = itemToAdd.amount * this.selectedProduct.price;
           itemToAdd.id = item.id;
           isFoundMatch = true;
           this.cartItemService.updateItem(itemToAdd);

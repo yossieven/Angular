@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CategoryService, Category } from '../category.service';
+import { ProductsService } from '../products.service';
 
 @Component({
   selector: 'app-category-navbar',
@@ -11,7 +12,7 @@ export class CategoryNavbarComponent implements OnInit {
   activeCategoryId: number;
   @Output() selectedCategory: EventEmitter<number> = new EventEmitter();
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoryService: CategoryService, private productService: ProductsService) {
     this.categoryService.getCategories('');
     this.categoryService.categories$.subscribe(
       data => this.categories = data,
@@ -31,6 +32,13 @@ export class CategoryNavbarComponent implements OnInit {
   }
 
   lookupProduct(value: any) {
-
+    console.log("CategoryNavbarComponent: lookupProduct - lookup value", value);
+    if (value.lookupProduct == '') {
+      this.productService.getProducts('');
+    }
+    else {
+      this.productService.getProductByName(value.lookupProduct);
+    }
+    this.activeCategoryId = 1;
   }
 }

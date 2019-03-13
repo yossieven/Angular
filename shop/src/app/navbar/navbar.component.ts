@@ -16,6 +16,10 @@ export class NavbarComponent implements OnInit {
     if (this.utilityService.isUserLogged()) {
       this.userService.getUser(localStorage.getItem('loggedUser'));
     }
+    else {
+      this.user = null;
+    }
+
     this.userService.user$.subscribe({
       next: (data) => {
         console.log("navbar: subcribe to User", data);

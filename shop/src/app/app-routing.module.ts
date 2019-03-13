@@ -4,6 +4,7 @@ import { RegisterComponent } from './register/register.component';
 import { MainComponent } from './main/main.component';
 import { ShopComponent } from './shop/shop.component';
 import { AuthGuard } from './auth.guard';
+import { OrderFormComponent } from './order-form/order-form.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
     path: 'shop',
     component: ShopComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'order',
+    component: OrderFormComponent
   }
 
 ];

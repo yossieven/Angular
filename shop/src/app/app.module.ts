@@ -26,6 +26,7 @@ import { CategoryNavbarComponent } from './category-navbar/category-navbar.compo
 import { CartComponent } from './cart/cart.component';
 import { ItemComponent } from './item/item.component';
 import { QuantityModalComponent } from './quantity-modal/quantity-modal.component';
+import { OrderFormComponent } from './order-form/order-form.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { QuantityModalComponent } from './quantity-modal/quantity-modal.componen
     CategoryNavbarComponent,
     CartComponent,
     ItemComponent,
-    QuantityModalComponent
+    QuantityModalComponent,
+    OrderFormComponent
   ],
   imports: [
     BrowserModule,

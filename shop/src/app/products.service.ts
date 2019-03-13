@@ -37,16 +37,15 @@ export class ProductsService {
     await this.http.get(finalURL, httpOptions).pipe(
       map(
         (response: Response) => {
-          console.log("returned data", response);
+          console.log("ProductsService: getProducts - returned data", response);
           //response.data[0].image = 'http://localhost:3000/assets/images/' + response.data[0].image;
           return response.data;
 
         })).subscribe(response => this.products$.next(response))
   }
 
-  async getProductsByCategory(category: string) {
-
-    const finalURL = this.basicURL + 'category/' + category;
+  async getProductByName(name: string) {
+    const finalURL = this.basicURL + 'name/' + name;
     console.log("URL", finalURL);
 
     const httpOptions = {
@@ -56,11 +55,35 @@ export class ProductsService {
     await this.http.get(finalURL, httpOptions).pipe(
       map(
         (response: Response) => {
-          console.log("returned data", response);
-          //response.data[0].image = 'http://localhost:3000/assets/images/' + response.data[0].image;
+          console.log("ProductsService: getProductByName - returned data", response);
           return response.data;
 
         })).subscribe(response => this.products$.next(response))
+  }
+
+  async getProductsByCategory(category: string) {
+
+    if (category == '1') {
+      this.getProducts('');
+
+    }
+    else {
+      const finalURL = this.basicURL + 'category/' + category;
+      console.log("URL", finalURL);
+
+      const httpOptions = {
+        withCredentials: true
+      };
+      // console.log("products", this.products$);
+      await this.http.get(finalURL, httpOptions).pipe(
+        map(
+          (response: Response) => {
+            console.log("returned data", response);
+            //response.data[0].image = 'http://localhost:3000/assets/images/' + response.data[0].image;
+            return response.data;
+
+          })).subscribe(response => this.products$.next(response))
+    }
   }
 
   /**

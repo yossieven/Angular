@@ -14,7 +14,7 @@
       <span>כמות</span>
     </div>
     <div class="col-2 item-header text-center">
-      <span>פריטים</span>
+      <span>מחיר</span>
     </div>
     <div class="col-3 item-header text-center">
       <span>תמונה</span>
@@ -26,10 +26,10 @@
     </div>
   </div>
   <div class="fixed-bottom row" style="position:relative;">
-    <div class="col-2 ml-2">סה"כ:</div>
-    <div class="col-7"></div>
+    <div class="col-4 ml-2">סה"כ: <b>{{totalCartPrice}}</b></div>
+    <div class="col-5"></div>
     <div class="col-2">
-      <a href="#" [routerLink]="" style="color:black;">הזמן</a>
+      <button (click)="order()" class="btn btn-success btn-sm" style="color:black;">הזמן</button>
     </div>
   </div>
 

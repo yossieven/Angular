@@ -5,6 +5,7 @@ import { CartItemService } from '../cart-item.service';
 import { CartItem } from '../cart-item';
 import { Cart } from '../cart';
 import { DetailsItem } from '../details-item';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -19,8 +20,9 @@ export class CartComponent implements OnInit {
   user: User;
   @Input() cart: Cart;
   @Output() cartItems: EventEmitter<DetailsItem[]> = new EventEmitter(); //send current items in cart to shop
+  totalCartPrice: number;
 
-  constructor(private userService: UserService, private cartItemsService: CartItemService) {
+  constructor(private userService: UserService, private cartItemsService: CartItemService, private router: Router) {
     this.userService.user$.subscribe(
       data => {
         if (data == null || data.length == 0) {
@@ -47,6 +49,8 @@ export class CartComponent implements OnInit {
           this.items = data;
           console.log("CartComponent: subscribe to items - returned from service", this.items);
           this.isHasItems = true;
+          this.totalCartPrice = this.items.reduce((sum, item) => sum + item.total, 0);
+          this.totalCartPrice = Math.round(this.totalCartPrice * 100) / 100
         }
         this.cartItems.emit(this.items);
         console.log("CartComponent: subscribe to User - does user have items?", this.isHasItems);
@@ -62,4 +66,7 @@ export class CartComponent implements OnInit {
   ngOnInit() {
   }
 
+  order() {
+    this.router.navigate(['order']);
+  }
 }

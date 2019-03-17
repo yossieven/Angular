@@ -4,7 +4,7 @@
       ngModel>
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">חפש</button>
   </form>
-  <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+  <ul *ngIf="!isViewOnly" class="navbar-nav mx-auto mt-2 mt-lg-0">
     <li *ngFor="let category of categories" [attr.id]="'category'+category.id" [ngClass]="{'active': category.id==activeCategoryId}"
       class="nav-item">
       <a class="nav-link" href="#" [routerLink]="" (click)="retrieveCategoryProducts(category.id)">{{category.name}}

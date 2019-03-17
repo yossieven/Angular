@@ -1,16 +1,17 @@
 <div class="row">
   <div class="col-2 my-auto">
-    <button type="button" class="btn btn-danger btn-sm " (click)="removeItem(item.id, cartId)" aria-label="Delete">
+    <button type="button" class="btn btn-danger btn-sm" [ngClass]="{'d-none': viewOnly}" (click)="removeItem(item.id, cartId)"
+      aria-label="Delete">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="col-4 my-auto item-display text-center">
+  <div class="col-4 my-auto text-center" [ngClass]="{'item-display': !viewOnly, 'item-readonly': viewOnly}">
     <span>{{item.name}}</span>
   </div>
-  <div class="col-1 my-auto item-display text-center">
+  <div class="col-1 my-auto text-center" [ngClass]="{'item-display': !viewOnly, 'item-readonly': viewOnly}">
     <span>{{item.amount}}</span>
   </div>
-  <div class="col-2 my-auto item-display text-center">
+  <div class="col-2 my-auto text-center" [ngClass]="{'item-display': !viewOnly, 'item-readonly': viewOnly}">
     <span>{{item.total}}</span>
   </div>
   <div class="col-3 my-auto">

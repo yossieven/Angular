@@ -20,7 +20,9 @@ export class CartComponent implements OnInit {
   user: User;
   @Input() cart: Cart;
   @Output() cartItems: EventEmitter<DetailsItem[]> = new EventEmitter(); //send current items in cart to shop
+  @Output() showOrder: EventEmitter<boolean> = new EventEmitter();
   totalCartPrice: number;
+  isViewOnly: boolean = false;
 
   constructor(private userService: UserService, private cartItemsService: CartItemService, private router: Router) {
     this.userService.user$.subscribe(
@@ -67,6 +69,12 @@ export class CartComponent implements OnInit {
   }
 
   order() {
-    this.router.navigate(['order']);
+    this.isViewOnly = true;
+    this.showOrder.emit(true);
+  }
+
+  backToShop() {
+    this.isViewOnly = false;
+    this.showOrder.emit(false);
   }
 }

@@ -12,11 +12,15 @@
 }
 
 .item-container {
-  height: 72vh;
+  height: 66.5vh;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 .no-items {
-  height: 75.5vh;
+  height: 69vh;
+}
+
+.cart-title {
+  color: white;
 }

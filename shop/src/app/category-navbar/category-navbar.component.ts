@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CategoryService, Category } from '../category.service';
 import { ProductsService } from '../products.service';
 
@@ -11,6 +11,7 @@ export class CategoryNavbarComponent implements OnInit {
   categories: Category[];
   activeCategoryId: number;
   @Output() selectedCategory: EventEmitter<number> = new EventEmitter();
+  @Input() isViewOnly: boolean;
 
   constructor(private categoryService: CategoryService, private productService: ProductsService) {
     this.categoryService.getCategories('');

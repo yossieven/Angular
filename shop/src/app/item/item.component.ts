@@ -12,6 +12,7 @@ export class ItemComponent implements OnInit {
 
   @Input() item: DetailsItem;
   @Input() cartId: number;
+  @Input() viewOnly: boolean;
   detailedItem: DetailsItem;
 
   constructor(private cartItemService: CartItemService) { }

@@ -1,26 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
-import { User } from '../user';
 import { Router } from '@angular/router';
+import { User } from '../user';
 import { Cart } from '../cart';
-import { CartItemService } from '../cart-item.service';
 import { DetailsItem } from '../details-item';
+import { CartItemService } from '../cart-item.service';
 
 @Component({
-  selector: 'app-shop',
-  templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.css']
+  selector: 'app-order',
+  templateUrl: './order.component.html',
+  styleUrls: ['./order.component.css']
 })
-export class ShopComponent implements OnInit {
-
+export class OrderComponent implements OnInit {
   user: User = null;
   isHasCart: boolean = false;
   category: string;
   cart: Cart;
   currentCartItems: DetailsItem[];
-  isShowOrder: boolean = false;
 
-  constructor(private userService: UserService, private cartItemsService: CartItemService, private router: Router) {
+  constructor(private userService: UserService, private router: Router, private cartItemsService: CartItemService) {
     //check if session active
     this.userService.checkSession().subscribe((boolRes) => {
       if (!boolRes) {
@@ -74,19 +72,6 @@ export class ShopComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
-  displayProducts(category) {
-    console.log("ShopComponent: displayProducts - selectedCategory was emitted in parent")
-    this.category = category;
-  }
-
-  cartItemsReport(items: DetailsItem[]) {
-    this.currentCartItems = items;
-  }
-
-  showOrder(isShowOrder: boolean) {
-    this.isShowOrder = isShowOrder;
-  }
 }

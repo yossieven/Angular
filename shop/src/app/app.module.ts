@@ -27,6 +27,7 @@ import { CartComponent } from './cart/cart.component';
 import { ItemComponent } from './item/item.component';
 import { QuantityModalComponent } from './quantity-modal/quantity-modal.component';
 import { OrderFormComponent } from './order-form/order-form.component';
+import { OrderComponent } from './order/order.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { OrderFormComponent } from './order-form/order-form.component';
     CartComponent,
     ItemComponent,
     QuantityModalComponent,
-    OrderFormComponent
+    OrderFormComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,14 @@
 <div class="cart-main">
+  <div class=row>
+    <div class="col">
+      <h6 class="cart-title ml-2 mt-2">העגלה שלי</h6>
+    </div>
+    <div class="col"></div>
+    <div *ngIf="isViewOnly" class="col align-self-end">
+      <a [routerLink]="" style="color: yellow;" (click)="backToShop()" class="btn btn-link">חזור לחנות</a>
+    </div>
+  </div>
+  <hr>
   <div *ngIf="!isHasItems" class="text-center no-items" style="position:relative;">
     <h3>אין פריטים בעגלה</h3>
     <p>הוסף פריטים לקנייה</p>
@@ -22,14 +32,14 @@
   </div>
   <div *ngIf="isHasItems" class="item-container">
     <div *ngFor="let item of items" class="ml-2 mb-2 cart-container">
-      <app-item [item]="item" [cartId]="cart.id"></app-item>
+      <app-item [item]="item" [cartId]="cart.id" [viewOnly]="isViewOnly"></app-item>
     </div>
   </div>
   <div class="fixed-bottom row" style="position:relative;">
     <div class="col-4 ml-2">סה"כ: <b>{{totalCartPrice}}</b></div>
     <div class="col-5"></div>
     <div class="col-2">
-      <button (click)="order()" class="btn btn-success btn-sm" style="color:black;">הזמן</button>
+      <button (click)="order()" class="btn btn-success btn-sm" [ngClass]="{'d-none': isViewOnly} style=" color:black;">הזמן</button>
     </div>
   </div>
 

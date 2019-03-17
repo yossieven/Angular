@@ -1,11 +1,16 @@
 <div class="container-fluid">
   <div class="shop-main row">
     <div class="col-3" style="padding: 0px; padding-right: 2px;">
-      <app-cart [cart]="cart" (cartItems)="cartItemsReport($event)"></app-cart>
+      <app-cart [cart]="cart" (cartItems)="cartItemsReport($event)" (showOrder)="showOrder($event)"></app-cart>
     </div>
     <div class="col-9">
-      <app-category-navbar (selectedCategory)="displayProducts($event)"></app-category-navbar>
-      <app-product-category [selectedCategory]="category" [cart]="cart" [cartItems]="currentCartItems"></app-product-category>
+      <app-category-navbar (selectedCategory)="displayProducts($event)" [isViewOnly]="isShowOrder"></app-category-navbar>
+      <div *ngIf="!isShowOrder">
+        <app-product-category [selectedCategory]="category" [cart]="cart" [cartItems]="currentCartItems"></app-product-category>
+      </div>
+      <div *ngIf="isShowOrder">
+        <app-order-form></app-order-form>
+      </div>
     </div>
   </div>
 </div>

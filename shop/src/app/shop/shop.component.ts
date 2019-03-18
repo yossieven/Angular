@@ -19,6 +19,7 @@ export class ShopComponent implements OnInit {
   cart: Cart;
   currentCartItems: DetailsItem[];
   isShowOrder: boolean = false;
+  isDisplayCart: boolean = true;
 
   constructor(private userService: UserService, private cartItemsService: CartItemService, private router: Router) {
     //check if session active

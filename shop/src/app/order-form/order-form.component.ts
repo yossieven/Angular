@@ -35,8 +35,8 @@ export class OrderFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orderForm.form.controls.shipDate.setValue(new Date());
-    this.shipDateRef.nativeElement.value = new Date();
+    // this.orderForm.form.controls.shipDate.setValue(new Date());
+    // this.shipDateRef.nativeElement.value = new Date();
   }
 
 }

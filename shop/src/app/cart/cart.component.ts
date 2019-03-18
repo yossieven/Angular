@@ -24,6 +24,7 @@ export class CartComponent implements OnInit {
   totalCartPrice: number;
   isViewOnly: boolean = false;
 
+
   constructor(private userService: UserService, private cartItemsService: CartItemService, private router: Router) {
     this.userService.user$.subscribe(
       data => {
@@ -66,10 +67,12 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("CartComponent: ngOnInit() - isViewOnly", this.isViewOnly);
   }
 
   order() {
     this.isViewOnly = true;
+    console.log("CartComponent: order() - isViewOnly", this.isViewOnly);
     this.showOrder.emit(true);
   }
 

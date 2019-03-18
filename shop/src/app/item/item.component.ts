@@ -7,7 +7,8 @@ import { DetailsItem } from '../details-item';
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.css']
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent implements OnInit, OnChanges {
+
 
 
   @Input() item: DetailsItem;
@@ -21,6 +22,11 @@ export class ItemComponent implements OnInit {
     console.log("ItemComponent: ngOnInit - detailed item is", this.item);
 
   }
+
+  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
+    console.log("ItemComponent: ngOnChanges - viewOnly", this.viewOnly);
+  }
+
   removeItem(id, cartId) {
     console.log(`deleting item ${id} for cart ${cartId}`);
     this.cartItemService.deleteCartItem(id, cartId);

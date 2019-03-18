@@ -3,6 +3,14 @@ import { UserService } from '../user.service';
 import { User } from '../user';
 import { NgForm } from '@angular/forms';
 import { Cities } from '../cities';
+import { DatePipe } from '@angular/common';
+
+export class FormModel {
+  city: string
+  street: string
+  shipDate: string
+  credit: string
+}
 
 @Component({
   selector: 'app-order-form',
@@ -14,8 +22,9 @@ export class OrderFormComponent implements OnInit {
   @ViewChild('orderForm1') orderForm: NgForm;
   @ViewChild('shipDate') shipDateRef: ElementRef;
   listOfCities = new Cities();
+  formModel: FormModel = new FormModel();
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private datePipe: DatePipe) {
     this.userService.user$.subscribe(
       data => {
         if (data == null || data.length == 0) {
@@ -30,6 +39,13 @@ export class OrderFormComponent implements OnInit {
         console.error(`CartComponent: subscribe to User - Error in retrieving user : `, error.message);
       }
     );
+
+    const today = new Date();
+
+    this.formModel.city = this.user.city;
+    this.formModel.street = this.user.street;
+    this.formModel.shipDate = this.datePipe.transform(today, 'yyyy-MM-dd');
+    this.formModel.credit = "";
 
 
   }

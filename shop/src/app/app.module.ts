@@ -28,6 +28,7 @@ import { ItemComponent } from './item/item.component';
 import { QuantityModalComponent } from './quantity-modal/quantity-modal.component';
 import { OrderFormComponent } from './order-form/order-form.component';
 import { OrderComponent } from './order/order.component';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -59,7 +60,7 @@ import { OrderComponent } from './order/order.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [ProductsService, CategoryService, UserService, AuthGuard, UtilitiesService],
+  providers: [ProductsService, CategoryService, UserService, AuthGuard, UtilitiesService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

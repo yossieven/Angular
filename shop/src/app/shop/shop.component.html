@@ -4,14 +4,17 @@
       <app-cart [cart]="cart" (cartItems)="cartItemsReport($event)" (showOrder)="showOrder($event)"></app-cart>
     </div>
     <div class="d-inline-block"><button class="btn btn-warning" (click)="isDisplayCart=!isDisplayCart">
-        {{ isDisplayCart == true ? '<<' : '>>' }}</button> </div> <div class="col-8" [ngClass]="{'col-8': isDisplayCart, 'col-11': !isDisplayCart}">
-          <app-category-navbar (selectedCategory)="displayProducts($event)" [isViewOnly]="isShowOrder"></app-category-navbar>
-          <div *ngIf="!isShowOrder">
-            <app-product-category [selectedCategory]="category" [cart]="cart" [cartItems]="currentCartItems"></app-product-category>
-          </div>
-          <div *ngIf="isShowOrder">
-            <app-order-form></app-order-form>
-          </div>
+        {{ isDisplayCart == true ? '<<' : '>>' }}</button> </div>
+    <div class="col-8" [ngClass]="{'col-8': isDisplayCart, 'col-11': !isDisplayCart}">
+      <app-category-navbar (selectedCategory)="displayProducts($event)" [isViewOnly]="isShowOrder">
+      </app-category-navbar>
+      <div *ngIf="!isShowOrder">
+        <app-product-category [selectedCategory]="category" [cart]="cart" [cartItems]="currentCartItems">
+        </app-product-category>
+      </div>
+      <div *ngIf="isShowOrder">
+        <app-order-form [cart]="cart"></app-order-form>
+      </div>
     </div>
   </div>
 </div>

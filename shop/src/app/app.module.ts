@@ -27,8 +27,8 @@ import { CartComponent } from './cart/cart.component';
 import { ItemComponent } from './item/item.component';
 import { QuantityModalComponent } from './quantity-modal/quantity-modal.component';
 import { OrderFormComponent } from './order-form/order-form.component';
-import { OrderComponent } from './order/order.component';
 import { DatePipe } from '@angular/common';
+import { BsDatepickerModule } from '../../node_modules/ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -50,15 +50,16 @@ import { DatePipe } from '@angular/common';
     CartComponent,
     ItemComponent,
     QuantityModalComponent,
-    OrderFormComponent,
-    OrderComponent
+    OrderFormComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BsDatepickerModule.forRoot()
   ],
   providers: [ProductsService, CategoryService, UserService, AuthGuard, UtilitiesService, DatePipe],
   bootstrap: [AppComponent]

@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Cart } from '../cart';
 import { CartItemService } from '../cart-item.service';
 import { DetailsItem } from '../details-item';
+import { CartService } from '../cart.service';
+import { subscribeOn } from 'rxjs-compat/operator/subscribeOn';
 
 @Component({
   selector: 'app-shop',
@@ -20,13 +22,15 @@ export class ShopComponent implements OnInit {
   currentCartItems: DetailsItem[];
   isShowOrder: boolean = false;
   isDisplayCart: boolean = true;
+  userLogged = localStorage.getItem('loggedUser');
 
-  constructor(private userService: UserService, private cartItemsService: CartItemService, private router: Router) {
+  constructor(private userService: UserService, private cartItemsService: CartItemService, private cartService: CartService, private router: Router) {
     //check if session active
+
     this.userService.checkSession().subscribe((boolRes) => {
       if (!boolRes) {
         console.log('login required');
-        if (localStorage.getItem('loggedUser') != undefined) {
+        if (this.userLogged != undefined) {
           localStorage.removeItem('loggedUser');
         }
         this.router.navigate(['home']);
@@ -42,9 +46,6 @@ export class ShopComponent implements OnInit {
         else {
           this.user = data[0];
           console.log("shop: subscribe to User - returned from service", this.user);
-          this.userService.isUserHasActiveCart(data[0].id).subscribe((boolRes) => {
-            this.isHasCart = boolRes;
-          });
         }
         console.log("CartComponent: subscribe to User - does user have cart?", this.isHasCart);
       },
@@ -55,7 +56,11 @@ export class ShopComponent implements OnInit {
       }
     );
 
-    this.userService.userCart$.subscribe(
+
+  }
+
+  ngOnInit() {
+    this.cartService.cart$.subscribe(
       data => {
         if (data != null) {
           this.cart = data;
@@ -63,19 +68,23 @@ export class ShopComponent implements OnInit {
           this.cartItemsService.getItems(data.id.toString());
         }
         else {
-          console.log("user doesn't have cart");
+          console.log("ShopComponent: subscribe to Cart - user doesn't have cart");
+          //create cart for user
+          if (!this.isHasCart && (this.user != null || this.user != undefined)) {
+            let newCart = new Cart();
+            newCart.creation_date = new Date();
+            newCart.user_id = this.user.id;
+            this.cartService.createCart(newCart);
+          }
         }
       },
       error => {
-        console.error(`CartComponent: subscribe to User - Error in retrieving user : `, error.message);
+        console.error(`ShopComponent: subscribe to Cart - Error in retrieving user : `, error.message);
         this.isHasCart = false;
 
       }
     );
-  }
-
-  ngOnInit() {
-
+    console.log("shop on init");
   }
 
   displayProducts(category) {

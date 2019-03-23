@@ -56,10 +56,10 @@ export class CartComponent implements OnInit {
           this.totalCartPrice = Math.round(this.totalCartPrice * 100) / 100
         }
         this.cartItems.emit(this.items);
-        console.log("CartComponent: subscribe to User - does user have items?", this.isHasItems);
+        console.log("CartComponent: subscribe to Items - does user have items?", this.isHasItems);
       },
       error => {
-        console.error(`CartComponent: subscribe to User - Error in retrieving user : `, error.message);
+        console.error(`CartComponent: subscribe to Items - Error in retrieving items : `, error.message);
         this.isHasCart = false;
 
       }

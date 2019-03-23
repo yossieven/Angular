@@ -12,14 +12,15 @@
         <hr>
       </div>
     </div>
-    <form #orderForm1="ngForm" name="form" class="form" (ngSubmit)="function()" novalidate>
+    <form #orderForm1="ngForm" name="form" class="form" (ngSubmit)="createOrder()" novalidate>
       <div class="d-flex align-items-stretch">
         <fieldset>
           <div class="form-group row">
             <label class="col-4 col-form-label" for="orderCity">עיר:</label>
             <div class="col-8">
-              <select name="orderCity" class="custom-select" #city="ngModel" [ngClass]="{ 'is-invalid': orderForm1.submitted && city.invalid }"
-                [(ngModel)]="formModel.city" required>
+              <select name="orderCity" class="custom-select" #city="ngModel"
+                [ngClass]="{ 'is-invalid': orderForm1.submitted && city.invalid }" [(ngModel)]="formModel.city"
+                (dblclick)="fillInTheBlanks(city)" required>
                 <option *ngFor="let city of listOfCities.cities" value={{city.name}}>{{city.name}}</option>
               </select>
               <div *ngIf="orderForm1.submitted && city.invalid" class="invalid-feedback">
@@ -31,8 +32,9 @@
           <div class="form-group row">
             <label class="col-4 col-form-label" for="orderStreet">רחוב:</label>
             <div class="col-8">
-              <input type="text" name="orderStreet" #street="ngModel" class="form-control" [ngClass]="{ 'is-invalid': orderForm1.submitted && street.invalid }"
-                [(ngModel)]="formModel.street" required>
+              <input type="text" name="orderStreet" #street="ngModel" class="form-control"
+                [ngClass]="{ 'is-invalid': orderForm1.submitted && street.invalid }" [(ngModel)]="formModel.street"
+                (dblclick)="fillInTheBlanks(street)" required>
               <div *ngIf="orderForm1.submitted && street.invalid" class="invalid-feedback">
                 <div *ngIf="street.errors.required">רחוב הינו חובה</div>
               </div>
@@ -42,8 +44,9 @@
           <div class="form-group row">
             <label class="col-4 col-form-label" for="loginDate">תאריך משלוח:</label>
             <div class="col-8">
-              <input type="date" name="orderDate" #shipDate="ngModel" class="form-control" [ngClass]="{ 'is-invalid': orderForm1.submitted && shipDate.invalid }"
-                [(ngModel)]="formModel.shipDate" required>
+              <input type="text" bsDatepicker name="orderDate" #shipDate="ngModel" [datesDisabled]="disabledDates"
+                class="form-control" [ngClass]="{ 'is-invalid': orderForm1.submitted && shipDate.invalid }"
+                [(ngModel)]="formModel.shipDate" (dblclick)="fillInTheBlanks(shipDate)" required>
               <div *ngIf="orderForm1.submitted && shipDate.invalid" class="invalid-feedback">
                 <div *ngIf="shipDate.errors.required">תאריך משלוח הינו חובה</div>
               </div>
@@ -62,7 +65,7 @@
               </div>
             </div>
           </div>
-          <button type="submit" class="btn btn-success float-right">הבא</button>
+          <button type="submit" class="btn btn-success float-right">הזמן</button>
         </fieldset>
       </div>
     </form>

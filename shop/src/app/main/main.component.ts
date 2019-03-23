@@ -3,6 +3,7 @@ import { ProductsService } from '../products.service';
 import { BehaviorSubject, Subscription } from 'rxjs/RX';
 import { Product } from '../product';
 import { UserService } from '../user.service';
+import { CartService } from '../cart.service';
 
 
 @Component({
@@ -14,13 +15,12 @@ export class MainComponent implements OnInit, OnDestroy {
 
   public myProducts: Product[];
   productSubscription: Subscription;
+  userLogged = localStorage.getItem('loggedUser');
 
-  constructor(private productService: ProductsService, private userService: UserService) {
-    if (localStorage.getItem('loggedUser') != undefined) {
-      this.userService.getUser(localStorage.getItem('loggedUser'));
-      this.userService.isUserHasActiveCart(localStorage.getItem('loggedUser')).subscribe(res => {
-        console.log("user has cart? ", res);
-      });
+  constructor(private productService: ProductsService, private userService: UserService, private cartService: CartService) {
+    if (this.userLogged != undefined) {
+      this.userService.getUser(this.userLogged);
+      this.cartService.isUserHasActiveCart(this.userLogged);
     }
     this.productSubscription = this.productService.products$.subscribe({
       next: (data) => {
@@ -33,10 +33,10 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const id = '';
-
     this.productService.getProducts('');
-
+    window.addEventListener("beforeunload", function (e) {
+      localStorage.removeItem('loggedUser');
+    });
   }
 
   ngOnDestroy(): void {

@@ -6,6 +6,7 @@ import { UserService } from '../user.service';
 import { Cart } from '../cart';
 import { User } from '../user';
 import { Subscription } from 'rxjs';
+import { CartService } from '../cart.service';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class ShopInfoComponent implements OnInit, OnDestroy {
   cartSubscription: Subscription;
   userSubscription: Subscription;
 
-  constructor(private productService: ProductsService, private orderService: OrdersService, private userService: UserService) {
+  constructor(private productService: ProductsService, private orderService: OrdersService, private cartService: CartService, private userService: UserService) {
     this.productSubscription = this.productService.products$.subscribe({
       next: (data) => {
         console.log("shop-info: subscribed to products");
@@ -44,12 +45,13 @@ export class ShopInfoComponent implements OnInit, OnDestroy {
       this.orders = response.data;
     });
 
-    this.cartSubscription = this.userService.userCart$.subscribe({
+
+    this.cartSubscription = this.cartService.cart$.subscribe({
       next: (data) => {
         console.log("shop-info: subscribed to user cart", data);
         if (data != null) {
           this.hasOpenCart = true;
-          this.cart = data
+          this.cart = data;
         }
         else {
           this.hasOpenCart = false;
@@ -73,6 +75,7 @@ export class ShopInfoComponent implements OnInit, OnDestroy {
           console.log("shop-info: subscribed to user ID", this.user.id);
           console.log("shop-info: number of orders when user changed ", this.numberOfOrders);
           this.userOrder = this.orders.find(order => order.user_id == this.user.id);
+          this.cartService.isUserHasActiveCart(this.user.id);
         }
       },
       error: (err) => console.log('shop-info: observer shop info:' + err),

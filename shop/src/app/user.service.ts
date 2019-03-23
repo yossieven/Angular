@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from './user';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import { Cart } from './cart';
+import { OrdersService } from './orders.service';
+import { CartService } from './cart.service';
 
 
 export interface Response {
@@ -17,9 +19,9 @@ export class UserService {
   private basicURL = 'http://localhost:3000/api/users/';
   public user$ = new BehaviorSubject<User[]>([]);
   public isUserHasCart: boolean = false;
-  public userCart$ = new BehaviorSubject<Cart>(null);
+  // public userCart$ = new BehaviorSubject<Cart>(null);
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private orderService: OrdersService, private cartService: CartService) {
 
   }
 
@@ -37,7 +39,7 @@ export class UserService {
     this.login(email, password).subscribe(
       res => {
         console.log("user service, checkLogin: subscribed to user", res);
-        this.isUserHasActiveCart(res[0].id).subscribe((boolRes) => {
+        this.cartService.isUserHasActiveCart(res[0].id).subscribe((boolRes) => {
           this.isUserHasCart = boolRes;
           this.user$.next(res);
           console.log('userService: checkLogin - subscribe to user after checking cart', res);
@@ -54,24 +56,32 @@ export class UserService {
    * check whether user has still active cart.
    * @param id 
    */
-  isUserHasActiveCart(id: string): Observable<boolean> {
-    // to check if user has cart and order.
-    const loginURL = this.basicURL + id + "/hasCart";
-    console.log("user service, isUserHasActiveCart: check if has cart with URL", loginURL);
-    return this.http.get(loginURL).
-      map(
-        (response: Response) => {
-          console.log("user service, isUserHasActiveCart: returned data", response);
-          if (response.success) {
-            this.userCart$.next(response.data[0]);
-            return true;
-          }
-          else {
-            this.userCart$.next(null);
-            return false;
-          }
-        });
-  }
+  // isUserHasActiveCart(id: string): Observable<boolean> {
+  //   // to check if user has cart and order.
+  //   const loginURL = this.basicURL + id + "/hasCart";
+  //   console.log("user service, isUserHasActiveCart: check if has cart with URL", loginURL);
+  //   return this.http.get(loginURL).
+  //     map(
+  //       (response: Response) => {
+  //         console.log("user service, isUserHasActiveCart: returned data", response);
+  //         if (response.success) {
+  //           this.orderService.isExistOrderByCart(String(response.data[0].id)).subscribe(res => {
+  //             if (res) {
+  //               this.userCart$.next(null);
+  //               return false;
+  //             }
+  //             else {
+  //               this.userCart$.next(response.data[0]);
+  //               return true;
+  //             }
+  //           })
+  //         }
+  //         else {
+  //           this.userCart$.next(null);
+  //           return false;
+  //         }
+  //       });
+  // }
 
   checkSession(): Observable<boolean> {
     // to check if user has cart and order.
@@ -187,7 +197,7 @@ export class UserService {
           if (response === 'exit') {
             this.user$.next([]);
             localStorage.removeItem('loggedUser');
-            this.userCart$.next(null);
+            this.cartService.cart$.next(null);
             this.isUserHasCart = false;
             return true;
           }

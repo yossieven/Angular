@@ -130,7 +130,7 @@ export class CartItemService {
         });
   }
 
-  deleteCartItem(id, cartId) {
+  deleteCartItem(id, cartId): Observable<boolean> {
     const finalURL = this.basicURL + id;
 
     console.log("URL", finalURL);
@@ -142,21 +142,43 @@ export class CartItemService {
       withCredentials: true
     };
 
-    return this.http.delete(finalURL, httpOptions)
+    return this.http.delete<Response>(finalURL, httpOptions)
       .map(
         (response: Response) => {
           console.log("returned data", response.data);
-          return response.data;
+          if (response.success) {
+            return true;
+          }
+          else {
+            return false;
+          }
         })
-      .subscribe(
-        res => {
-          if (res != null) {
-            console.log("deleted item successfully", res);
-            this.getItems(cartId.toString());
+
+  }
+
+  deleteCartItemsFromCart(id): Observable<boolean> {
+    const finalURL = this.basicURL + "cart/" + id;
+
+    console.log("URL", finalURL);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      }),
+      withCredentials: true
+    };
+
+    return this.http.delete<Response>(finalURL, httpOptions)
+      .map(
+        (response: Response) => {
+          console.log("returned data", response.data);
+          if (response.success) {
+            return true;
           }
-          err => {
-            console.log("update error", err);
+          else {
+            return false;
           }
-        });
+        })
+
   }
 }

@@ -92,22 +92,44 @@ export class CartService {
           let currentCart: Cart = null;
           console.log("cartService: isUserHasActiveCart - returned data", response);
           if (response.success) {
-            for (let cart of response.data) {
-              this.orderService.isExistOrderByCart(String(cart.id)).map(res => {
-                if (res) {
-                  cartExists = false;
-                  currentCart = null;
-                  return false;
-                }
-                else {
-                  cartExists = true;
-                  currentCart = cart;
-                  return true;
-                }
-              }).subscribe(subRes => { this.cart$.next(currentCart); });
-            }
+            const maxCartId = Math.max(...response.data.map((cart) => cart.id));
+            const maxCartIndex = response.data.findIndex((cart) => cart.id == maxCartId);
+            currentCart = response.data[maxCartIndex];
+            this.orderService.isExistOrderByCart(String(maxCartId)).map(res => {
+              return !res
+            }).subscribe((isActive) => {
+              if (isActive) {
+                this.cart$.next(currentCart);
+                return true;
+              }
+              else {
+                this.cart$.next(null);
+                return false;
+              }
+            })
+            // for (let cart of response.data) {
 
+            // }
+            //   this.orderService.isExistOrderByCart(String(cart.id)).map(res => {
+            //     if (res) {
+            //       cartExists = false;
+            //       currentCart = null;
+            //       return false;
+            //     }
+            //     else {
+            //       cartExists = true;
+            //       currentCart = cart;
+            //       return true;
+            //     }
+            //   }).subscribe();
+            // }
 
+            // if (currentCart != null) {
+            //   this.cart$.next(currentCart);
+            // }
+            // else {
+            //   this.cart$.next(null);
+            // }
 
           }
           else {

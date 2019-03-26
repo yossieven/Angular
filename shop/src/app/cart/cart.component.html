@@ -1,7 +1,7 @@
 <div class="cart-main">
   <div class=row>
     <div class="col">
-      <h6 class="cart-title ml-2 mt-2">העגלה שלי</h6>
+      <h6 class="cart-title ml-2 mt-2" style="text-align: right;">העגלה שלי</h6>
     </div>
     <div class="col"></div>
     <div *ngIf="isViewOnly" class="col align-self-end">
@@ -36,10 +36,11 @@
     </div>
   </div>
   <div class="fixed-bottom row" style="position:relative;">
-    <div class="col-4 ml-2">סה"כ: <b>{{totalCartPrice}}</b></div>
+    <div class="col-4 ml-2" style="text-align: right;">סה"כ: <b>{{totalCartPrice}}</b></div>
     <div class="col-5"></div>
     <div class="col-2">
-      <button (click)="order()" class="btn btn-success btn-sm" [ngClass]="{'d-none': isViewOnly}" style=" color:black;">הזמן</button>
+      <button (click)="order()" class="btn btn-success btn-sm" [ngClass]="{'d-none': isViewOnly}"
+        style=" color:black;">הזמן</button>
     </div>
   </div>
 

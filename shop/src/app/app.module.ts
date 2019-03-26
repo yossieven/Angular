@@ -29,6 +29,7 @@ import { QuantityModalComponent } from './quantity-modal/quantity-modal.componen
 import { OrderFormComponent } from './order-form/order-form.component';
 import { DatePipe } from '@angular/common';
 import { BsDatepickerModule } from '../../node_modules/ngx-bootstrap/datepicker';
+import { OrderModalComponent } from './order-modal/order-modal.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { BsDatepickerModule } from '../../node_modules/ngx-bootstrap/datepicker'
     CartComponent,
     ItemComponent,
     QuantityModalComponent,
-    OrderFormComponent
+    OrderFormComponent,
+    OrderModalComponent
 
   ],
   imports: [

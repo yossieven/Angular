@@ -11,11 +11,15 @@ import { UtilitiesService } from '../utilities.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  userLogged = localStorage.getItem('loggedUser');
+
   private user: User = null;
   constructor(private userService: UserService, private router: Router, private utilityService: UtilitiesService) {
     if (this.utilityService.isUserLogged()) {
-      this.userService.getUser(this.userLogged);
+      this.userService.checkSession().subscribe(res => {
+        if (res) {
+          this.userService.getUser(localStorage.getItem('loggedUser'));
+        }
+      })
     }
     else {
       this.user = null;

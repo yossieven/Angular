@@ -1,73 +1,76 @@
 <div class="container-fluid">
-  <div class="main-order mt-3 p-3">
-    <div class=row>
-      <div class="col">
-        <h3 class="cart-title ml-2 mt-2">הזמנה</h3>
-        <hr>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <h6 class="cart-title ml-2 mt-2">פרטי משלוח:</h6>
-        <hr>
-      </div>
-    </div>
-    <form #orderForm1="ngForm" name="form" class="form" (ngSubmit)="createOrder()" novalidate>
-      <div class="d-flex align-items-stretch">
-        <fieldset>
-          <div class="form-group row">
-            <label class="col-4 col-form-label" for="orderCity">עיר:</label>
-            <div class="col-8">
-              <select name="orderCity" class="custom-select" #city="ngModel"
-                [ngClass]="{ 'is-invalid': orderForm1.submitted && city.invalid }" [(ngModel)]="formModel.city"
-                (dblclick)="fillInTheBlanks(city)" required>
-                <option *ngFor="let city of listOfCities.cities" value={{city.name}}>{{city.name}}</option>
-              </select>
-              <div *ngIf="orderForm1.submitted && city.invalid" class="invalid-feedback">
-                <div *ngIf="city.errors.required">עיר הינה חובה</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-4 col-form-label" for="orderStreet">רחוב:</label>
-            <div class="col-8">
-              <input type="text" name="orderStreet" #street="ngModel" class="form-control"
-                [ngClass]="{ 'is-invalid': orderForm1.submitted && street.invalid }" [(ngModel)]="formModel.street"
-                (dblclick)="fillInTheBlanks(street)" required>
-              <div *ngIf="orderForm1.submitted && street.invalid" class="invalid-feedback">
-                <div *ngIf="street.errors.required">רחוב הינו חובה</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-4 col-form-label" for="loginDate">תאריך משלוח:</label>
-            <div class="col-8">
-              <input type="text" bsDatepicker name="orderDate" #shipDate="ngModel" [datesDisabled]="disabledDates"
-                class="form-control" [ngClass]="{ 'is-invalid': orderForm1.submitted && shipDate.invalid }"
-                [(ngModel)]="formModel.shipDate" (dblclick)="fillInTheBlanks(shipDate)" required>
-              <div *ngIf="orderForm1.submitted && shipDate.invalid" class="invalid-feedback">
-                <div *ngIf="shipDate.errors.required">תאריך משלוח הינו חובה</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group row">
-            <label class="col-4 col-form-label" for="orderCredit">מספר אשראי:</label>
-            <div class="col-8">
-              <input type="text" name="orderCredit" #orderCredit="ngModel" pattern="[0-9]{8,16}" class="form-control"
-                [ngClass]="{ 'is-invalid': orderForm1.submitted && orderCredit.invalid }" [(ngModel)]="formModel.credit"
-                required>
-              <div *ngIf="orderForm1.submitted && orderCredit.invalid" class="invalid-feedback">
-                <div *ngIf="orderCredit.errors.required">מספר אשראי הינה חובה</div>
-                <div *ngIf="orderCredit.errors.pattern">אשראי לא תקין</div>
-              </div>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-success float-right">הזמן</button>
-        </fieldset>
-      </div>
-    </form>
+  <div *ngIf="showOrderedModal">
+    <app-order-modal (closeModal)="closeModal($event)"></app-order-modal>
   </div>
+</div>
+<div class="main-order mt-3 p-3">
+  <div class=row>
+    <div class="col">
+      <h3 class="cart-title ml-2 mt-2" style="text-align: right;">הזמנה</h3>
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h6 class="cart-title ml-2 mt-2" style="text-align: right;">פרטי משלוח:</h6>
+      <hr>
+    </div>
+  </div>
+  <form #orderForm1="ngForm" name="form" class="form" (ngSubmit)="createOrder()" novalidate>
+    <div class="d-flex align-items-stretch">
+      <fieldset>
+        <div class="form-group row">
+          <label class="col-4 col-form-label" for="orderCity">עיר:</label>
+          <div class="col-8">
+            <select name="orderCity" class="custom-select" #city="ngModel"
+              [ngClass]="{ 'is-invalid': orderForm1.submitted && city.invalid }" [(ngModel)]="formModel.city"
+              (dblclick)="fillInTheBlanks(city)" required>
+              <option *ngFor="let city of listOfCities.cities" value={{city.name}}>{{city.name}}</option>
+            </select>
+            <div *ngIf="orderForm1.submitted && city.invalid" class="invalid-feedback">
+              <div *ngIf="city.errors.required">עיר הינה חובה</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-4 col-form-label" for="orderStreet">רחוב:</label>
+          <div class="col-8">
+            <input type="text" name="orderStreet" #street="ngModel" class="form-control"
+              [ngClass]="{ 'is-invalid': orderForm1.submitted && street.invalid }" [(ngModel)]="formModel.street"
+              (dblclick)="fillInTheBlanks(street)" required>
+            <div *ngIf="orderForm1.submitted && street.invalid" class="invalid-feedback">
+              <div *ngIf="street.errors.required">רחוב הינו חובה</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-4 col-form-label" for="loginDate">תאריך משלוח:</label>
+          <div class="col-8">
+            <input type="text" bsDatepicker name="orderDate" #shipDate="ngModel" [datesDisabled]="disabledDates"
+              class="form-control" [ngClass]="{ 'is-invalid': orderForm1.submitted && shipDate.invalid }"
+              [(ngModel)]="formModel.shipDate" (dblclick)="fillInTheBlanks(shipDate)" required>
+            <div *ngIf="orderForm1.submitted && shipDate.invalid" class="invalid-feedback">
+              <div *ngIf="shipDate.errors.required">תאריך משלוח הינו חובה</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-4 col-form-label" for="orderCredit">אשראי:</label>
+          <div class="col-8">
+            <input type="text" name="orderCredit" #orderCredit="ngModel" pattern="[0-9]{8,16}" class="form-control"
+              [ngClass]="{ 'is-invalid': orderForm1.submitted && orderCredit.invalid }" [(ngModel)]="formModel.credit"
+              required>
+            <div *ngIf="orderForm1.submitted && orderCredit.invalid" class="invalid-feedback">
+              <div *ngIf="orderCredit.errors.required">מספר אשראי הינה חובה</div>
+              <div *ngIf="orderCredit.errors.pattern">אשראי לא תקין</div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success float-right">הזמן</button>
+      </fieldset>
+    </div>
+  </form>
 </div>

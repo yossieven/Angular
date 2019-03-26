@@ -52,36 +52,7 @@ export class UserService {
     );
   }
 
-  /**
-   * check whether user has still active cart.
-   * @param id 
-   */
-  // isUserHasActiveCart(id: string): Observable<boolean> {
-  //   // to check if user has cart and order.
-  //   const loginURL = this.basicURL + id + "/hasCart";
-  //   console.log("user service, isUserHasActiveCart: check if has cart with URL", loginURL);
-  //   return this.http.get(loginURL).
-  //     map(
-  //       (response: Response) => {
-  //         console.log("user service, isUserHasActiveCart: returned data", response);
-  //         if (response.success) {
-  //           this.orderService.isExistOrderByCart(String(response.data[0].id)).subscribe(res => {
-  //             if (res) {
-  //               this.userCart$.next(null);
-  //               return false;
-  //             }
-  //             else {
-  //               this.userCart$.next(response.data[0]);
-  //               return true;
-  //             }
-  //           })
-  //         }
-  //         else {
-  //           this.userCart$.next(null);
-  //           return false;
-  //         }
-  //       });
-  // }
+
 
   checkSession(): Observable<boolean> {
     // to check if user has cart and order.

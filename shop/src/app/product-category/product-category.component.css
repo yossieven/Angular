@@ -7,5 +7,6 @@
 
 .products-container {
   overflow: hidden;
-  display: inline-block;
+  float: right;
+  /* display: inline-block; */
 }

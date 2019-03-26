@@ -43,10 +43,14 @@ export class OrderFormComponent implements OnInit, OnChanges {
   orderToCreate: Order;
   @Input() cart: Cart;
   cartItems: DetailsItem[];
+  showOrderedModal: boolean;
 
 
 
-  constructor(private userService: UserService, private datePipe: DatePipe, private orderService: OrdersService, private cartService: CartService, private cartItemService: CartItemService) {
+  constructor(private userService: UserService, private datePipe: DatePipe, private orderService: OrdersService,
+    private cartService: CartService, private cartItemService: CartItemService) {
+    this.showOrderedModal = false;
+
     this.userService.user$.subscribe(
       data => {
         if (data == null || data.length == 0) {
@@ -152,7 +156,14 @@ export class OrderFormComponent implements OnInit, OnChanges {
         console.log("OrderFormComponent: createOrder - there was a problem in creating order!");
         // remove cart
       }
+      else {
+        this.showOrderedModal = true;
+      }
     });
+  }
+
+  closeModal(isClosed: boolean) {
+    this.showOrderedModal = !isClosed;
   }
 
 }

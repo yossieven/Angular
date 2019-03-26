@@ -3,6 +3,11 @@
   <div class="card-body">
     <h5 class="card-title" mdbTooltip="Basic tooltip" placement="top" title="{{product.name}}">{{product.name}}</h5>
     <p class="card-text">מחיר: {{product.price | number: '1.2-2'}}</p>
-    <button (click)="addToCart(product)" class="btn btn-primary">הוסף לסל</button>
+    <div *ngIf="!isEdit">
+      <button (click)="addToCart(product)" class="btn btn-primary">הוסף לסל</button>
+    </div>
+    <div *ngIf="isEdit">
+      <button (click)="editProduct(product)" class="btn btn-primary">ערוך</button>
+    </div>
   </div>
 </div>

@@ -1,0 +1,15 @@
+<div class="container-fluid">
+  <div class="admin-main row">
+    <div class="col-3" style="padding: 0px; padding-right: 2px;">
+      <app-product-form (retrieveAllCategories)="triggerCategoryNav($event)"></app-product-form>
+    </div>
+    <div class="col-8 mr-4" style="padding: 0px;">
+      <app-category-navbar (selectedCategory)="displayProducts($event)">
+      </app-category-navbar>
+      <div class="mr-3 px-0">
+        <app-product-category [selectedCategory]="category" [isEdit]="true">
+        </app-product-category>
+      </div>
+    </div>
+  </div>
+</div>

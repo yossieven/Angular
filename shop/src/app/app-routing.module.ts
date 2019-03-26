@@ -4,6 +4,7 @@ import { RegisterComponent } from './register/register.component';
 import { MainComponent } from './main/main.component';
 import { ShopComponent } from './shop/shop.component';
 import { AuthGuard } from './auth.guard';
+import { AdminComponent } from './admin/admin.component';
 
 const routes: Routes = [
   {
@@ -24,7 +25,11 @@ const routes: Routes = [
     component: ShopComponent,
     canActivate: [AuthGuard]
   },
-
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthGuard]
+  }
 
 ];
 

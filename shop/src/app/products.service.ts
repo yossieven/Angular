@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/catch';
 import { map } from 'rxjs/operators';
 import * as _ from 'lodash';
@@ -19,6 +19,8 @@ export interface Response {
 export class ProductsService {
   public products$ = new BehaviorSubject<Product[]>([]);
   private basicURL = 'http://localhost:3000/api/products/';
+  public productToEdit$ = new BehaviorSubject<Product>(null);
+
 
   constructor(private http: HttpClient) {
 
@@ -74,12 +76,11 @@ export class ProductsService {
       const httpOptions = {
         withCredentials: true
       };
-      // console.log("products", this.products$);
+
       await this.http.get(finalURL, httpOptions).pipe(
         map(
           (response: Response) => {
             console.log("returned data", response);
-            //response.data[0].image = 'http://localhost:3000/assets/images/' + response.data[0].image;
             return response.data;
 
           })).subscribe(response => this.products$.next(response))
@@ -105,10 +106,23 @@ export class ProductsService {
         map(
           (response: Response) => {
             console.log("returned data", response);
-            return response.data;
+            return response.data[0];
           }))
+      .catch((err: HttpErrorResponse) => {
+        alert(err.error.error.message);
+        return Observable.throw(err)
+      })
       .subscribe(response => {
-        this.products$.next(response);
+        this.productToEdit$.next(response);
       });
+
+  }
+
+  //   public getProductToEdit(): Product {
+  //   return this.productToEdit;
+  // }
+
+  public setProductToEdit(product: Product) {
+    this.productToEdit$.next(product);
   }
 }

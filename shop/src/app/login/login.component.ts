@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   loginFailed: boolean = false;
   noLogin: boolean = false;
   needExit: boolean = false;
+  isAdmin: boolean = false;
 
   constructor(private userService: UserService, private router: Router, private utilityService: UtilitiesService) {
 
@@ -25,9 +26,22 @@ export class LoginComponent implements OnInit {
         if (data == null) {
           this.isHasCart = false;
           this.loginFailed = true;
+          this.isAdmin = false;
+        }
+        else if (data.length == 0) {
+          this.isHasCart = false;
+          this.loginFailed = false; //first time retrieval of data.
+          this.isAdmin = false;
         }
         else {
           this.user = data[0];
+          if (this.user.role) {
+            this.isAdmin = false;
+          }
+          else {
+            this.isAdmin = true;
+            this.admin();
+          }
           console.log("login: subscribe to User - returned from service", this.user);
           this.isHasCart = this.userService.isUserHasCart;
           this.loginFailed = false;
@@ -86,5 +100,9 @@ export class LoginComponent implements OnInit {
 
   shop() {
     this.router.navigate(['shop']);
+  }
+
+  admin() {
+    this.router.navigate(['admin']);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { ProductsService } from '../products.service';
 import { CategoryService, Category } from '../category.service';
 import { HttpHeaders } from '@angular/common/http';
@@ -20,58 +20,43 @@ import { Product } from '../product';
  * 
  */
 export class ProductFormComponent implements OnInit {
-
   product: Product;
-
   categoryError = false;
   isValidImage = true;
+  displayImage: String;
   categories: Category[];
   fileToUpload: File = null;
-
-
-  @Input() productId;
-
-  @ViewChild('fileName')
-  fileName: ElementRef;
+  @ViewChild('fileName') fileName: ElementRef;
+  @Output() retrieveAllCategories: EventEmitter<boolean> = new EventEmitter();
+  defaultImage: string = 'http://localhost:3000/assets/images/1550345768682ring.png';
 
   constructor(private categoryService: CategoryService, private productService: ProductsService) {
 
-  }
-
-  /**
-   * load all categories and if ID is given load the product from DB.
-   */
-  ngOnInit() {
-
-    this.product = {
-      id: 0,
-      name: "",
-      category: 0,
-      price: 0,
-      image: ""
-    };
     this.categoryService.getCategories('');
     console.log("getting categories...");
     this.categoryService.categories$.subscribe(
       data => this.categories = data,
       error => console.error("Error in retrieving categories: ", error)
     );
-    this.productId = 14;
-    if (this.productId) {
-      this.getProductForUpdate(this.productId);
-      console.log("ngOnInit - my product", this.product);
-    }
+
+    this.productService.productToEdit$.subscribe(
+      data => {
+        if (data == null || data == undefined) {
+          this.initializeProduct();
+        }
+        else {
+          this.product = data;
+          this.displayImage = "http://localhost:3000/assets/images/" + this.product.image;
+        }
+      },
+      error => console.error("Error in retrieving product to edit: ", error)
+    );
 
   }
 
-  async getProductForUpdate(id) {
-    this.productService.products$.subscribe(
-      data => this.product = data[0],
-      error => console.error(`Error in retrieving product ${id}`, error)
-    );
-    await this.productService.getProducts(id);
 
-    console.log("getProductForUpdate - my product", this.product);
+  ngOnInit() {
+
   }
 
   /**
@@ -97,6 +82,7 @@ export class ProductFormComponent implements OnInit {
         reader.onload = (_event) => {
           console.log("_event", _event);
           this.product.image = _event.target["result"];
+          this.displayImage = this.product.image;
           console.log("product.image", this.product.image);
         }
       }
@@ -137,6 +123,9 @@ export class ProductFormComponent implements OnInit {
       console.log("uploaded file", this.fileToUpload.name);
       fd.append("image", this.fileToUpload, this.fileToUpload.name);
     }
+    else {
+
+    }
     for (var key in this.product) {
       if (key !== 'image') {
         fd.append(key, this.product[key]);
@@ -144,11 +133,26 @@ export class ProductFormComponent implements OnInit {
     }
 
     await this.productService.updateProduct(fd);
-    this.productService.products$.subscribe(
-      data => this.product = data[0],
-      error => console.error(`Error in retrieving product ${this.productId}`, error)
-    );
+    this.initializeProduct();
+    //this.retrieveAllCategories.emit(true);
+    this.productService.getProducts('');
+
+    // this.productService.products$.subscribe(
+    //   data => this.product = data[0],
+    //   error => console.error(`Error in retrieving product ${this.product.id}`, error)
+    // );
     console.log("updated product is", this.product);
 
+  }
+
+  initializeProduct() {
+    this.product = {
+      id: 0,
+      name: "",
+      category: 0,
+      price: 0,
+      image: ""
+    };
+    this.displayImage = "";
   }
 }

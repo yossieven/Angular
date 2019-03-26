@@ -3,7 +3,7 @@
     <app-quantity-modal (closeModal)="closeModal($event)" (setQuantity)="addToCart($event)"></app-quantity-modal>
   </div>
   <div *ngFor="let product of myProducts" class="ml-2 mb-2 products-container">
-    <app-product [product]="product" (showQuantityModal)="displayQuantityModal($event)"></app-product>
+    <app-product [product]="product" [isEdit]="isEdit" (showQuantityModal)="displayQuantityModal($event)"></app-product>
 
   </div>
 </div>

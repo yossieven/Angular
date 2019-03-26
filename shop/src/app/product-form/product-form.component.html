@@ -1,10 +1,10 @@
-<div class="container-fluid">
+<div class="main-product-form pr-5">
   <div class="row">
     <form #productForm="ngForm" class="form" action="#">
       <div class="form-group">
         <label for="pName">שם מוצר:</label>
-        <input type="text" required name="pName" #pName="ngModel" [(ngModel)]="product.name" [class.is-invalid]="pName.invalid && pName.touched"
-          class="form-control" placeholder="הכנס שם מוצר">
+        <input type="text" required name="pName" #pName="ngModel" [(ngModel)]="product.name"
+          [class.is-invalid]="pName.invalid && pName.touched" class="form-control" placeholder="הכנס שם מוצר">
         <small class="text-danger" [class.d-none]="pName.valid || pName.untouched">שם מוצר הינו חובה</small>
       </div>
 
@@ -22,8 +22,8 @@
       <div class="form-group">
         <label for="pCategory">קטגוריה:</label>
         <select (blur)="validateCategory(pCategory.value)" (change)="validateCategory(pCategory.value)" name="pCategory"
-          required [class.is-invalid]="pCategory.invalid && pCategory.touched" class="custom-select" #pCategory="ngModel"
-          [(ngModel)]="product.category">
+          required [class.is-invalid]="pCategory.invalid && pCategory.touched" class="custom-select"
+          #pCategory="ngModel" [(ngModel)]="product.category">
           <option value=0>בחר קטגוריה למוצר</option>
           <option *ngFor="let category of categories" value={{category.id}}>{{category.name}}</option>
         </select>
@@ -41,10 +41,12 @@
           תמונה למוצר</div>
       </div>
       <div class="mt-2 mb-2" id="image-display">
-        <img [src]="product.image" name="pPic" alt="">
+        <img [src]="displayImage!='http://localhost:3000/assets/images/' ? displayImage : defaultImage" name="pPic"
+          alt="">
       </div>
       <div>
-        <button type="submit" name="submit" class="btn btn-success pl-5 pr-5" (click)="createUpdateProduct()">עדכן</button>
+        <button type="submit" name="submit" class="btn btn-success pl-5 pr-5"
+          (click)="createUpdateProduct()">עדכן</button>
       </div>
     </form>
   </div>

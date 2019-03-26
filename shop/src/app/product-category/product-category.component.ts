@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { ProductsService } from '../products.service';
 import { Product } from '../product';
 import { CartItemService } from '../cart-item.service';
@@ -22,13 +22,17 @@ export class ProductCategoryComponent implements OnInit, OnChanges {
   @Input() cartItems: DetailsItem[];
   showQuantityModal: boolean = false;
   selectedProduct: Product;
+  @Input() isEdit: boolean;
 
   ngOnInit() {
 
     const id = this.selectedCategory;
     this.productService.getProductsByCategory(id);
     this.productService.products$.subscribe({
-      next: (data) => this.myProducts = data,
+      next: (data) => {
+        this.myProducts = data;
+        console.log("ProductCategoryComponent: ngOnInit - myProducts", this.myProducts);
+      },
       error: (err) => console.log('observerb:' + err),
       complete: () => console.log('observerc:')
     });
@@ -77,5 +81,6 @@ export class ProductCategoryComponent implements OnInit, OnChanges {
       this.cartItemService.addItemToCart(itemToAdd);
     }
   }
+
 
 }

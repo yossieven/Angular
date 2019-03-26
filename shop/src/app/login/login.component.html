@@ -1,11 +1,11 @@
 <div class="main-login py-2 px-2 pb-4">
   <div class="align-items-center">
-    <button class="btn btn-warning btn-block position-relative" [ngClass]="{'hide': user == undefined, 'show': user != undefined}"
-      (click)="shop()">
-      <div *ngIf="isHasCart" [ngClass]="{'d-none': user == null }">
+    <button class="btn btn-warning btn-block position-relative"
+      [ngClass]="{'hide': user == undefined, 'show': user != undefined}" (click)="shop()">
+      <div *ngIf="isHasCart && !isAdmin" [ngClass]="{'d-none': user == null }">
         <h3>המשך לקנות</h3>
       </div>
-      <div *ngIf="!isHasCart" [ngClass]="{'d-none': user == null }">
+      <div *ngIf="!isHasCart && !isAdmin" [ngClass]="{'d-none': user == null }">
         <h3>התחל בקנייה</h3>
       </div>
     </button>

@@ -25,6 +25,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   isDisplayCart: boolean = true;
   userLogged = localStorage.getItem('loggedUser');
   cartSubscription: Subscription;
+  isEdit: boolean = false;
 
   constructor(private userService: UserService, private cartItemsService: CartItemService, private cartService: CartService, private router: Router) {
     //check if session active

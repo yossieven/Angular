@@ -9,7 +9,8 @@
       <app-category-navbar (selectedCategory)="displayProducts($event)" [isViewOnly]="isShowOrder">
       </app-category-navbar>
       <div class="mr-3 px-0" *ngIf="!isShowOrder">
-        <app-product-category [selectedCategory]="category" [cart]="cart" [cartItems]="currentCartItems">
+        <app-product-category [selectedCategory]="category" [cart]="cart" [isEdit]="false"
+          [cartItems]="currentCartItems">
         </app-product-category>
       </div>
       <div *ngIf="isShowOrder">

@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div *ngIf="showOrderedModal">
-    <app-order-modal (closeModal)="closeModal($event)"></app-order-modal>
+    <app-order-modal (closeModal)="closeModal($event)" [cartItems]="cartItems"></app-order-modal>
   </div>
 </div>
 <div class="main-order mt-3 p-3">
@@ -48,11 +48,13 @@
         <div class="form-group row">
           <label class="col-4 col-form-label" for="loginDate">תאריך משלוח:</label>
           <div class="col-8">
-            <input type="text" bsDatepicker name="orderDate" #shipDate="ngModel" [datesDisabled]="disabledDates"
-              class="form-control" [ngClass]="{ 'is-invalid': orderForm1.submitted && shipDate.invalid }"
-              [(ngModel)]="formModel.shipDate" (dblclick)="fillInTheBlanks(shipDate)" required>
+            <input type="text" bsDatepicker name="orderDate" #shipDate="ngModel" [minDate]="minDate"
+              [datesDisabled]="disabledDates" class="form-control" (ngModelChange)="onDateChange($event)"
+              [ngClass]="{ 'is-invalid': orderForm1.submitted && shipDate.invalid }" [(ngModel)]="formModel.shipDate"
+              (dblclick)="fillInTheBlanks(shipDate)" required>
             <div *ngIf="orderForm1.submitted && shipDate.invalid" class="invalid-feedback">
               <div *ngIf="shipDate.errors.required">תאריך משלוח הינו חובה</div>
+              <div *ngIf="shipDate.errors.invalidDate">תאריך זה לא זמין למשלוחים</div>
             </div>
           </div>
         </div>

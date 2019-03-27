@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, OnChanges, HostListener } from '@angular/core';
 import { UserService } from '../user.service';
 import { User } from '../user';
 import { NgForm } from '@angular/forms';
@@ -33,7 +33,7 @@ export class OrderFormComponent implements OnInit, OnChanges {
 
   user: User;
   @ViewChild('orderForm1') orderForm: NgForm;
-  @ViewChild('shipDate') shipDateRef: ElementRef;
+  @ViewChild('shipDate', { read: ElementRef }) shipDateRef: ElementRef;
   listOfCities = new Cities();
   formModel: FormModel = new FormModel();
   ordersSubscription: Subscription;
@@ -44,6 +44,8 @@ export class OrderFormComponent implements OnInit, OnChanges {
   @Input() cart: Cart;
   cartItems: DetailsItem[];
   showOrderedModal: boolean;
+  minDate: Date;
+
 
 
 
@@ -107,6 +109,7 @@ export class OrderFormComponent implements OnInit, OnChanges {
     this.formModel.credit = "";
 
 
+    this.minDate = new Date();
 
   }
 
@@ -114,10 +117,8 @@ export class OrderFormComponent implements OnInit, OnChanges {
     console.log("changes");
   }
 
-
   ngOnInit() {
-    // this.orderForm.form.controls.shipDate.setValue(new Date());
-    // this.shipDateRef.nativeElement.value = new Date();
+
   }
 
   fillInTheBlanks(input) {
@@ -137,7 +138,34 @@ export class OrderFormComponent implements OnInit, OnChanges {
 
   }
 
+  onDateChange(event) {
+    this.disabledDates.forEach(element => {
+      if (this.datePipe.transform(element, 'MM/dd/yyyy') == event) {
+        this.orderForm.controls.orderDate.setErrors({ invalidDate: true });
+
+      }
+    });
+
+  }
+  validateShippingDate(): boolean {
+    let isValid: boolean = true;
+    if (this.shipDateRef.nativeElement.value <= this.datePipe.transform(this.minDate, 'MM/dd/yyyy')) {
+      this.orderForm.controls.orderDate.setErrors({ invalidDate: true });
+      return false;
+    }
+    this.disabledDates.forEach(element => {
+      if (this.datePipe.transform(element, 'MM/dd/yyyy') == this.shipDateRef.nativeElement.value) {
+        this.orderForm.controls.orderDate.setErrors({ invalidDate: true });
+        isValid = false;
+      }
+    });
+    return isValid;
+  }
+
   createOrder() {
+    if (!this.validateShippingDate()) {
+      return;
+    }
     let totalCartPrice = this.cartItems.reduce((sum, item) => sum + item.total, 0);
     totalCartPrice = Math.round(totalCartPrice * 100) / 100;
 

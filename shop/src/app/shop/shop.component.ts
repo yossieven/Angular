@@ -119,4 +119,12 @@ export class ShopComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.cartSubscription.unsubscribe();
   }
+
+  toggleCart() {
+    if (this.isDisplayCart) {
+      console.log("isShowORder", this.isShowOrder)
+    }
+    this.isDisplayCart = !this.isDisplayCart;
+
+  }
 }

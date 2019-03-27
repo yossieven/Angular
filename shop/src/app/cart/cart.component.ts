@@ -19,6 +19,7 @@ export class CartComponent implements OnInit {
   items: DetailsItem[];
   user: User;
   @Input() cart: Cart;
+  @Input() isInOrder: boolean
   @Output() cartItems: EventEmitter<DetailsItem[]> = new EventEmitter(); //send current items in cart to shop
   @Output() showOrder: EventEmitter<boolean> = new EventEmitter();
   totalCartPrice: number;
@@ -68,6 +69,12 @@ export class CartComponent implements OnInit {
 
   ngOnInit() {
     console.log("CartComponent: ngOnInit() - isViewOnly", this.isViewOnly);
+    if (this.isInOrder) {
+      this.isViewOnly = true;
+    }
+    else {
+      this.isViewOnly = false;
+    }
   }
 
   order() {

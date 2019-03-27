@@ -83,7 +83,7 @@ export class UserService {
       last_name: user.last_name,
       city: user.city,
       street: user.street,
-      role: 0
+      role: 1
     }
     const httpOptions = {
       headers: new HttpHeaders({

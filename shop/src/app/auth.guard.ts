@@ -12,7 +12,14 @@ export class AuthGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.userService.checkSession().map(res => {
-      return res;
+      console.log("AuthGuard: canActivate - session is active?", res);
+      if (res) {
+        return res;
+      }
+      else {
+        this.router.navigate(['home']);
+        return res;
+      }
     })
   }
 }

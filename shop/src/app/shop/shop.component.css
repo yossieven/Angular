@@ -1,20 +1,30 @@
 .shop-main {
   margin-top: 100px;
   width: 100vw;
-
-
+  overflow: hidden;
 }
 
 
 .left-side {
   float: right;
-
-
 }
 
 .cart-container {
-  width: 400px;
+  width: 30vw;
   float: right;
+  padding: 0px;
+  padding-right: 2px;
+  height: 100vh;
+}
+
+.nav-container {
+  width: 60vw;
+  font-size: 1vw;
+}
+
+.nav-container-collapse {
+  width: 90vw;
+  font-size: 1vw;
 }
 
 .expand {

@@ -1,15 +1,23 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-light">
-  <form #lookupForm="ngForm" name="lookupForm" class="form-inline my-2 my-lg-0" (ngSubmit)="lookupProduct(lookupForm.value)">
+<nav class="navbar navbar-expand-xl fixed-top navbar-light">
+  <form #lookupForm="ngForm" name="lookupForm" class="form-inline my-2 my-lg-0"
+    (ngSubmit)="lookupProduct(lookupForm.value)">
     <input class="form-control mr-sm-2" #lookupName="ngModel" name="lookupProduct" type="search" placeholder="חפש מוצר"
       ngModel>
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">חפש</button>
   </form>
-  <ul *ngIf="!isViewOnly" class="navbar-nav mx-auto mt-2 mt-lg-0">
-    <li *ngFor="let category of categories" [attr.id]="'category'+category.id" [ngClass]="{'active': category.id==activeCategoryId}"
-      class="nav-item">
-      <a class="nav-link" href="#" [routerLink]="" (click)="retrieveCategoryProducts(category.id)">{{category.name}}
-        |<span class="sr-only">(current)</span></a>
-    </li>
-  </ul>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul *ngIf="!isViewOnly" class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li *ngFor="let category of categories" [attr.id]="'category'+category.id"
+        [ngClass]="{'active': category.id==activeCategoryId}" class="nav-item">
+        <a class="nav-link" href="#" [routerLink]="" (click)="retrieveCategoryProducts(category.id)">{{category.name}}
+          |<span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
 
 </nav>

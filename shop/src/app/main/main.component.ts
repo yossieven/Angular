@@ -22,7 +22,7 @@ export class MainComponent implements OnInit, OnDestroy {
       this.userService.checkSession().subscribe(res => {
         if (res) {
           this.userService.getUser(this.userLogged);
-          this.cartService.isUserHasActiveCart(this.userLogged);
+          //this.cartService.isUserHasActiveCart(this.userLogged).subscribe();
         }
       })
     }

@@ -30,16 +30,16 @@ export class ShopComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService, private cartItemsService: CartItemService, private cartService: CartService, private router: Router) {
     //check if session active
 
-    this.userService.checkSession().subscribe((boolRes) => {
-      if (!boolRes) {
-        console.log('login required');
-        if (this.userLogged != undefined) {
-          localStorage.removeItem('loggedUser');
-        }
-        this.router.navigate(['home']);
-      }
+    // this.userService.checkSession().subscribe((boolRes) => {
+    //   if (!boolRes) {
+    //     console.log('login required');
+    //     if (this.userLogged != undefined) {
+    //       localStorage.removeItem('loggedUser');
+    //     }
+    //     this.router.navigate(['home']);
+    //   }
 
-    });
+    // });
 
     this.userService.user$.subscribe(
       data => {

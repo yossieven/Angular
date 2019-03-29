@@ -1,12 +1,13 @@
 <div class="container-fluid">
   <div class="shop-main row">
-    <div *ngIf="isDisplayCart" class="col-3" style="padding: 0px; padding-right: 2px;">
+    <div *ngIf="isDisplayCart" class="cart-container">
       <app-cart [cart]="cart" (cartItems)="cartItemsReport($event)" (showOrder)="showOrder($event)"
         [isInOrder]="isShowOrder"></app-cart>
     </div>
-    <div class="d-inline-block"><button class="btn btn-warning" (click)="toggleCart()">
+    <div class="d-inline-block mr-1"><button class="btn btn-warning" (click)="toggleCart()">
         {{ isDisplayCart == true ? '<<' : '>>' }}</button> </div>
-    <div class="col-8 mr-4" style="padding: 0px;" [ngClass]="{'col-8': isDisplayCart, 'col-11': !isDisplayCart}">
+    <div class="mr-4" style="padding: 0px;"
+      [ngClass]="{'nav-container': isDisplayCart, 'nav-container-collapse': !isDisplayCart}">
       <app-category-navbar (selectedCategory)="displayProducts($event)" [isViewOnly]="isShowOrder">
       </app-category-navbar>
       <div class="mr-3 px-0" *ngIf="!isShowOrder">

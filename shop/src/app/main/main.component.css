@@ -2,22 +2,26 @@
   height: 100vh;
   margin-top: 100px;
   padding-right: 4%;
+  overflow: auto;
 }
 
 .login {
   height: 75vh;
   float: right;
-  width: 27vw
+  width: 27vw;
+  margin-left: 2vw;
 }
 
 .shop-info {
   height: 75vh;
   float: right;
-  width: 27vw
+  width: 27vw;
+  margin-left: 2vw;
 }
 
 .description {
   height: 75vh;
   float: right;
-  width: 27vw
+  width: 27vw;
+  margin-left: 2vw;
 }

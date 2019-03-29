@@ -3,6 +3,8 @@ import { UserService } from '../user.service';
 import { User } from '../user';
 import { Router } from '@angular/router';
 import { UtilitiesService } from '../utilities.service';
+import { Subscription } from 'rxjs/Rx';
+import { CartService } from '../cart.service';
 
 
 @Component({
@@ -17,43 +19,64 @@ export class LoginComponent implements OnInit {
   noLogin: boolean = false;
   needExit: boolean = false;
   isAdmin: boolean = false;
+  cartSubscription: Subscription;
 
-  constructor(private userService: UserService, private router: Router, private utilityService: UtilitiesService) {
+  constructor(private userService: UserService, private router: Router, private utilityService: UtilitiesService, private cartService: CartService) {
 
     console.log("login: user before subcription", this.userService.user$);
     this.userService.user$.subscribe(
       data => {
         if (data == null) {
+          console.log("LoginComponent: subscribe to user - failed login");
           this.isHasCart = false;
           this.loginFailed = true;
           this.isAdmin = false;
+          this.noLogin = false;
         }
         else if (data.length == 0) {
+          console.log("LoginComponent: subscribe to user - no login yet");
           this.isHasCart = false;
           this.loginFailed = false; //first time retrieval of data.
           this.isAdmin = false;
+          this.noLogin = true;
         }
         else {
+          this.loginFailed = false;
+          this.noLogin = false;
           this.user = data[0];
           if (this.user.role) {
+            console.log("LoginComponent: subscribe to user - regular user");
             this.isAdmin = false;
           }
           else {
+            console.log("LoginComponent: subscribe to user - admin user");
             this.isAdmin = true;
             this.admin();
           }
-          console.log("login: subscribe to User - returned from service", this.user);
-          this.isHasCart = this.userService.isUserHasCart;
-          this.loginFailed = false;
-
+          console.log("LoginComponent: subscribe to User - returned from service", this.user);
         }
       },
       error => {
-        console.error(`login: subscribe to User - Error in retrieving user : `, error.message);
+        console.error(`LoginComponent: subscribe to User - Error in retrieving user : `, error.message);
         this.isHasCart = false;
         this.loginFailed = true;
       }
     );
+
+    this.cartSubscription = this.cartService.cart$.subscribe({
+      next: (data) => {
+        console.log("shop-info: subscribed to user cart", data);
+        if (data != null) {
+          this.isHasCart = true;
+        }
+        else {
+          this.isHasCart = false;
+        }
+
+      },
+      error: (err) => console.log('shop-info: observer shop info:' + err),
+      complete: () => console.log('shop-info: observer shop info complete')
+    });
   }
 
   ngOnInit() {
@@ -64,6 +87,7 @@ export class LoginComponent implements OnInit {
     console.log("login for ", value.userEmail);
     this.user = null;
     if (value.userEmail == "" || value.userPass == "") {
+      console.log("LoginComponent: login - no login yet");
       this.loginFailed = false;
       this.noLogin = true;
       return;
@@ -73,11 +97,12 @@ export class LoginComponent implements OnInit {
       this.loginFailed = false;
     }
     try {
+      console.log("LoginComponent: login - call to check login");
       this.userService.checkLogin(value.userEmail, value.userPass);
       this.loginFailed = false;
     }
     catch (err) {
-      console.log("login: login - caught error");
+      console.log("LoginComponent: login - caught error");
       this.loginFailed = true;
     }
 
@@ -85,7 +110,7 @@ export class LoginComponent implements OnInit {
 
   register() {
     if (!this.utilityService.isUserLogged()) {
-      console.log("navigating");
+      console.log("LoginComponent: register - navigating");
       this.router.navigate(['../register']);
       this.noLogin = false;
       this.loginFailed = false;
@@ -103,6 +128,7 @@ export class LoginComponent implements OnInit {
   }
 
   admin() {
+    console.log("LoginComponent: admin - navigating");
     this.router.navigate(['admin']);
   }
 }

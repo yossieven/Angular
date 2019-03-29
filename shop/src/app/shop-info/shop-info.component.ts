@@ -75,7 +75,8 @@ export class ShopInfoComponent implements OnInit, OnDestroy {
           console.log("shop-info: subscribed to user ID", this.user.id);
           console.log("shop-info: number of orders when user changed ", this.numberOfOrders);
           this.userOrder = this.orders.find(order => order.user_id == this.user.id);
-          this.cartService.isUserHasActiveCart(this.user.id);
+          console.log("shop-info: check if user has active carts");
+          this.cartService.isUserHasActiveCart(this.user.id).subscribe();
         }
       },
       error: (err) => console.log('shop-info: observer shop info:' + err),

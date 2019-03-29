@@ -5,13 +5,14 @@
   height: 80vh;
   text-align: right;
   color: white;
+  width: inherit;
 }
 
-label.form-control {
+.form-control {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: 200px;
+  /* width: 200px; */
 }
 
 #pPrice {
@@ -20,13 +21,17 @@ label.form-control {
 }
 
 #image-display {
-  width: 160px;
-  height: 160px;
+  max-width: 160px;
+  max-height: 160px;
   border: 1px rgb(190, 187, 187) solid;
   overflow: hidden;
+
 }
 
 #image-display img {
-  width: 150px;
-  height: auto;
+  max-width: 150px;
+  max-height: 150px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

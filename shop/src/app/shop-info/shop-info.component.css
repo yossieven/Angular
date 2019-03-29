@@ -3,3 +3,11 @@
   height: 500px;
   border-radius: 10px;
 }
+
+.shopinfo-img {}
+
+.shopinfo-img img {
+  max-width: 80%;
+  object-fit: contain;
+  height: auto;
+}

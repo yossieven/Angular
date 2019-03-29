@@ -92,7 +92,7 @@ export class ProductsService {
    * depending whether ID was given or not.
    * @param fd 
    */
-  async updateProduct(fd) {
+  updateProduct(fd): Observable<Product> {
 
     let updateURL = this.basicURL;
 
@@ -100,21 +100,21 @@ export class ProductsService {
       updateURL += fd.get('id');
     }
 
-    console.log('Updated URL is ', updateURL);
-    await this.http.post(updateURL, fd)
+    console.log('ProductsService: updateProduct - Updated URL is ', updateURL);
+    return this.http.post<Response>(updateURL, fd)
       .pipe(
         map(
           (response: Response) => {
-            console.log("returned data", response);
+            console.log("ProductsService: updateProduct - returned data", response);
             return response.data[0];
           }))
       .catch((err: HttpErrorResponse) => {
         alert(err.error.error.message);
         return Observable.throw(err)
       })
-      .subscribe(response => {
-        this.productToEdit$.next(response);
-      });
+    // .subscribe(response => {
+    //   this.productToEdit$.next(response);
+    // });
 
   }
 

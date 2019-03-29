@@ -12,13 +12,13 @@
 }
 
 .item-container {
-  height: 66.5vh;
+  height: 62vh;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 .no-items {
-  height: 69vh;
+  height: 65vh;
 }
 
 .cart-title {

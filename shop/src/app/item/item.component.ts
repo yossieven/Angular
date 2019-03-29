@@ -29,7 +29,7 @@ export class ItemComponent implements OnInit, OnChanges {
 
   removeItem(id, cartId) {
     console.log(`deleting item ${id} for cart ${cartId}`);
-    this.cartItemService.deleteCartItem(id, cartId);
+    this.cartItemService.deleteCartItem(id, cartId).subscribe((res) => { this.cartItemService.getItems(this.cartId.toString()); });;
   }
 
 

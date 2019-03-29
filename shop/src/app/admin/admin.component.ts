@@ -15,12 +15,13 @@ export class AdminComponent implements OnInit {
   }
 
   displayProducts(category) {
-    console.log("ShopComponent: displayProducts - selectedCategory was emitted in parent")
+    console.log("AdminComponent: displayProducts - selectedCategory was emitted in parent")
     this.category = category;
   }
 
-  // triggerCategoryNav(isTrigger: boolean) {
-  //   this.displayProducts('1');
-  // }
+  triggerCategoryNav(isTrigger: boolean) {
+    console.log("AdminComponent: triggerCategoryNav - returnd selected category");
+    this.displayProducts('1');
+  }
 
 }

@@ -131,18 +131,14 @@ export class ProductFormComponent implements OnInit {
         fd.append(key, this.product[key]);
       }
     }
-
-    await this.productService.updateProduct(fd);
-    this.initializeProduct();
-    //this.retrieveAllCategories.emit(true);
-    this.productService.getProducts('');
-
-    // this.productService.products$.subscribe(
-    //   data => this.product = data[0],
-    //   error => console.error(`Error in retrieving product ${this.product.id}`, error)
-    // );
-    console.log("updated product is", this.product);
-
+    console.log("ProductFormComponent: createUpdateProduct - updating product", this.product);
+    this.productService.updateProduct(fd).subscribe(response => {
+      console.log("ProductFormComponent: createUpdateProduct - done updating product", this.product);
+      this.initializeProduct();
+      this.productService.getProducts('');
+      this.retrieveAllCategories.emit(true);
+      this.productService.productToEdit$.next(response);
+    });;
   }
 
   initializeProduct() {

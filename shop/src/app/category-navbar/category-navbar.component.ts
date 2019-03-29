@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges } from '@angular/core';
 import { CategoryService, Category } from '../category.service';
 import { ProductsService } from '../products.service';
 
@@ -7,9 +7,10 @@ import { ProductsService } from '../products.service';
   templateUrl: './category-navbar.component.html',
   styleUrls: ['./category-navbar.component.css']
 })
-export class CategoryNavbarComponent implements OnInit {
+export class CategoryNavbarComponent implements OnInit, OnChanges {
+
   categories: Category[];
-  activeCategoryId: number;
+  @Input() activeCategoryId: number;
   @Output() selectedCategory: EventEmitter<number> = new EventEmitter();
   @Input() isViewOnly: boolean;
 
@@ -23,6 +24,11 @@ export class CategoryNavbarComponent implements OnInit {
 
   ngOnInit() {
     this.retrieveCategoryProducts('1');
+  }
+
+  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
+
+    console.log("CategoryNavbarComponent: ngOnChanges - returnd selected category", changes);
   }
 
   retrieveCategoryProducts(id) {

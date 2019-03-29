@@ -18,6 +18,7 @@ export class MainComponent implements OnInit, OnDestroy {
   userLogged = localStorage.getItem('loggedUser');
 
   constructor(private productService: ProductsService, private userService: UserService, private cartService: CartService) {
+    this.cartService.cart$.next(null);
     if (this.userLogged != undefined) {
       this.userService.checkSession().subscribe(res => {
         if (res) {

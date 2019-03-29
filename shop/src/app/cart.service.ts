@@ -107,29 +107,6 @@ export class CartService {
                 return false;
               }
             })
-            // for (let cart of response.data) {
-
-            // }
-            //   this.orderService.isExistOrderByCart(String(cart.id)).map(res => {
-            //     if (res) {
-            //       cartExists = false;
-            //       currentCart = null;
-            //       return false;
-            //     }
-            //     else {
-            //       cartExists = true;
-            //       currentCart = cart;
-            //       return true;
-            //     }
-            //   }).subscribe();
-            // }
-
-            // if (currentCart != null) {
-            //   this.cart$.next(currentCart);
-            // }
-            // else {
-            //   this.cart$.next(null);
-            // }
 
           }
           else {

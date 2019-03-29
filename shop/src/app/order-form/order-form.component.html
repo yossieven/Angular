@@ -51,7 +51,7 @@
             <input type="text" bsDatepicker name="orderDate" #shipDate="ngModel" [minDate]="minDate"
               [datesDisabled]="disabledDates" class="form-control" (ngModelChange)="onDateChange($event)"
               [ngClass]="{ 'is-invalid': orderForm1.submitted && shipDate.invalid }" [(ngModel)]="formModel.shipDate"
-              (dblclick)="fillInTheBlanks(shipDate)" required>
+              (dblclick)="fillInTheBlanks(shipDate)" placement="top" required>
             <div *ngIf="orderForm1.submitted && shipDate.invalid" class="invalid-feedback">
               <div *ngIf="shipDate.errors.required">תאריך משלוח הינו חובה</div>
               <div *ngIf="shipDate.errors.invalidDate">תאריך זה לא זמין למשלוחים</div>

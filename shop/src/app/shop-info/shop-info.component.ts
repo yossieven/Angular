@@ -90,8 +90,8 @@ export class ShopInfoComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.productSubscription.unsubscribe();
     this.ordersSubscription.unsubscribe();
-    //this.cartSubscription.unsubscribe();
-    //this.userSubscription.unsubscribe();
+    this.cartSubscription.unsubscribe();
+    this.userSubscription.unsubscribe();
   }
 
 }

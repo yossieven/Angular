@@ -76,8 +76,8 @@ export class ShopComponent implements OnInit, OnDestroy {
           this.isHasCart = true;
         }
         else {
-          console.log("ShopComponent: subscribe to Cart - user doesn't have cart");
           if (!this.isHasCart && (this.user != null || this.user != undefined)) {
+            console.log("ShopComponent: subscribe to Cart - user doesn't have cart");
             let newCart = new Cart();
             newCart.creation_date = new Date();
             newCart.user_id = this.user.id;

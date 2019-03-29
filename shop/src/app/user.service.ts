@@ -168,7 +168,7 @@ export class UserService {
           if (response === 'exit') {
             this.user$.next([]);
             localStorage.removeItem('loggedUser');
-            this.cartService.cart$.next(null);
+            // this.cartService.cart$.next(null);
             this.isUserHasCart = false;
             return true;
           }

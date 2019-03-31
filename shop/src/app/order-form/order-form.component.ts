@@ -149,7 +149,7 @@ export class OrderFormComponent implements OnInit, OnChanges {
   }
   validateShippingDate(): boolean {
     let isValid: boolean = true;
-    if (this.shipDateRef.nativeElement.value <= this.datePipe.transform(this.minDate, 'MM/dd/yyyy')) {
+    if (this.shipDateRef.nativeElement.value < this.datePipe.transform(this.minDate, 'MM/dd/yyyy')) {
       this.orderForm.controls.orderDate.setErrors({ invalidDate: true });
       return false;
     }
